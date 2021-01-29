@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class EnemyFollow : MonoBehaviour
 {
-    public GameObject destination;
+    GameObject destination;
     NavMeshAgent agent;
 
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        destination = GameObject.FindWithTag("Player");
     }
 
     // Update is called once per frame

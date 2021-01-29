@@ -61,8 +61,16 @@
      * Tells the screen to move the paddle of this player.
      * @param amount
      */
-    function move(amount) {
-      airconsole.message(AirConsole.SCREEN, {move: amount})
+    function moveX(amount) {
+      airconsole.message(AirConsole.SCREEN, {moveX: amount})
+    }
+
+    /**
+     * Tells the screen to move the paddle of this player.
+     * @param amount
+     */
+    function moveZ(amount) {
+        airconsole.message(AirConsole.SCREEN, {moveZ: amount})
     }
 
     </script>
@@ -82,7 +90,7 @@
 
         .button {
             display: inline-block;
-            height: 45%;
+            height: 25%;
             width: 98%;
             background-color: #222;
             position: relative;
@@ -108,12 +116,18 @@
 </head>
 <body onload="init()">
     <div style="height: 1%"></div>
-    <div class=button ontouchstart="move(5)" ontouchend="move(0)">
-        <div class="button_label">UP</div>
+    <div class=button ontouchstart="moveX(1)" ontouchend="moveX(0)">
+        <div class="button_label">LEFT</div>
     </div>
     <div style="height: 8%"></div>
-    <div class=button ontouchstart="move(-5)" ontouchend="move(0)">
-        <div class="button_label">DOWN</div>
+    <div class=button ontouchstart="moveX(-1)" ontouchend="moveX(0)">
+        <div class="button_label">RIGHT</div>
+    </div>
+    <div class=button ontouchstart="moveZ(1)" ontouchend="moveZ(0)">
+        <div class="button_label">FORWARD</div>
+    </div>
+    <div class=button ontouchstart="moveZ(-1)" ontouchend="moveZ(0)">
+        <div class="button_label">BACKWARD</div>
     </div>
     <div id="player_id"></div>
 </body>

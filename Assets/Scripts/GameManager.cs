@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public int PlayerIDPuzzle = 1;
 
     CharacterController m_CharacterController;
+    PlayerLook m_PlayerLook;
 
     // Start is called before the first frame update
     void Awake()
@@ -35,12 +36,16 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (m_CharacterController == null)
+        {
             m_CharacterController = FindObjectOfType<CharacterController>();
+            m_PlayerLook = FindObjectOfType<PlayerLook>();
+        }
+            
     }
 
     void OnConnect(int deviceId)
     {
-        if (AirConsole.instance.GetControllerDeviceIds().Count == 2)
+        if (AirConsole.instance.GetControllerDeviceIds().Count == 1)
             StartGame();
     }
 
@@ -54,10 +59,19 @@ public class GameManager : MonoBehaviour
         int player = AirConsole.instance.ConvertDeviceIdToPlayerNumber(deviceId);
         if (player < 0)
             return;
-
+        Debug.Log(data);
         if (player == PlayerIDMovement)
         {
-            m_CharacterController.Command(data);
+            if ((string)data["element"] == "view-0-section-3-element-0")
+            {
+                m_CharacterController.Command(data);
+            }
+
+            if ((string)data["element"] == "view-0-section-4-element-0")
+            {
+                m_PlayerLook.Command(data);
+            }
+
         }
 
         if (player == PlayerIDPuzzle)

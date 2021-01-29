@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour
@@ -25,17 +26,52 @@ public class CharacterController : MonoBehaviour
 
     public void Command(JToken command)
     {
-        Debug.Log("Command");
-        if (command["moveX"] != null)
+        if ((string)command["data"]["key"] == "right")
         {
-            moveX = (int)command["moveX"];
-            Debug.Log($"moveX: {moveX}");
+            if ((bool)command["data"]["pressed"])
+            {
+                moveX = 1;
+            } else
+            {
+                moveX = 0;
+            }
+
+
+        }
+        
+        if ((string)command["data"]["key"] == "left")
+        {
+            if ((bool)command["data"]["pressed"])
+            {
+                moveX = -1;
+            } else
+            {
+                moveX = 0;
+            }
         }
 
-        if (command["moveZ"] != null)
+        if ((string)command["data"]["key"] == "up")
         {
-            moveZ = (int)command["moveZ"];
-            Debug.Log($"moveZ: {moveZ}");
+            if ((bool)command["data"]["pressed"])
+            {
+                moveZ = 1;
+            } else
+            {
+                moveZ = 0;
+            }
+
+
+        }
+        
+        if ((string)command["data"]["key"] == "down")
+        {
+            if ((bool)command["data"]["pressed"])
+            {
+                moveZ = -1;
+            } else
+            {
+                moveZ = 0;
+            }
         }
     }
 }

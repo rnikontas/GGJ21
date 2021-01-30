@@ -95,15 +95,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-<<<<<<< HEAD
-<<<<<<< HEAD
 --- !u!114 &1999500883985227958
-=======
---- !u!114 &7643837130610509891
->>>>>>> fb700cca099b6500e27cd40e9cb54795656f98c3
-=======
---- !u!114 &1999500883985227958
->>>>>>> 23eb7fd69ee612adda41f6891e4b8e40d5a8ec0e
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

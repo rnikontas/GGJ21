@@ -12,15 +12,14 @@ public class GameManager : MonoBehaviour
     public bool isReadyToStart;
     public GameObject Player;
 
-    public int playerId;
-
-    CharacterController _CharacterController;
-    PlayerLook _PlayerLook;
+    [HideInInspector]
+    public int playerId = -1;
 
     void Awake()
     {
         if (Instance == null)
             Instance = this;
+        DontDestroyOnLoad(this);
     }
 
     void Start()
@@ -28,17 +27,9 @@ public class GameManager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (_CharacterController == null)
-        {
-            _CharacterController = FindObjectOfType<CharacterController>();
-            _PlayerLook = FindObjectOfType<PlayerLook>();
-        }
-
         CheckIfReadyToStart();
-            
     }
 
     public void CheckIfReadyToStart()

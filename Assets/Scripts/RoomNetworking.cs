@@ -44,10 +44,28 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
             roomCanvasUI.indicatorMovement.SetActive(true);
 
             if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
+            {
                 roomCanvasUI.indicatorVision.SetActive(true);
+                if (GameManager.Instance.playerId == -1)
+                {
+                    Debug.LogError(GameManager.Instance.playerId);
+                    GameManager.Instance.playerId = 1;
+                }
+
+            }
+
 
             if (PhotonNetwork.CurrentRoom.PlayerCount == 3)
+            {
                 roomCanvasUI.indicatorSound.SetActive(true);
+                if (GameManager.Instance.playerId == -1)
+                {
+                    Debug.LogError(GameManager.Instance.playerId);
+                    GameManager.Instance.playerId = 2;
+                }
+                    
+            }
+                
         }
     }
 
@@ -75,6 +93,11 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
             GameManager.Instance.CheckIfReadyToStart();
+    }
+
+    public override void OnLeftRoom()
+    {
+        GameManager.Instance.playerId = -1;
     }
 
     public void CreateRoom()

@@ -11,7 +11,17 @@ public class CharacterController : MonoBehaviour
 
     void Awake()
     {
+        Debug.LogError(GameManager.Instance.playerId);
         pickupState = gameObject.GetComponent<PickupState>();
+        if (GameManager.Instance.playerId == 0)
+        {
+            gameObject.GetComponentInChildren<Camera>().enabled = false;
+        }
+
+        if (GameManager.Instance.playerId < 2)
+        {
+            gameObject.GetComponentInChildren<AudioListener>().enabled = false;
+        }
     }
 
     void Start()
@@ -36,11 +46,12 @@ public class CharacterController : MonoBehaviour
     
     void Update()
     {
-        var speed = GetMoveSpeed();
+        
 
         if (!PhotonNetwork.IsMasterClient)
             return;
 
+        var speed = GetMoveSpeed();
         var moveX = Input.GetAxis("Horizontal");
         var moveZ = Input.GetAxis("Vertical");
 

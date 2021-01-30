@@ -84,7 +84,7 @@ public class MazeGenerator : MonoBehaviour
         }
         var xGridPos = Random.Range(0, xSize);
         var zGridPos = Random.Range(0, zSize);
-    print(xGridPos + " " +zGridPos);
+        print(xGridPos + " " +zGridPos);
         GenerateGap(xGridPos, zGridPos);
         Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
         var playerPosition = new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate);
@@ -97,9 +97,7 @@ public class MazeGenerator : MonoBehaviour
             Instantiate(player, playerPosition, Quaternion.identity);
         }
         Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 2, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
-
         SpawnPowerUps();
-
         BuildingNavMesh();
     }
 
@@ -107,8 +105,14 @@ public class MazeGenerator : MonoBehaviour
     {
         foreach (var floor in floorList)
         {
-            floor.GetComponent<NavMeshSurface>().BuildNavMesh();
+            StartCoroutine(BuildFloorTileNavMesh(floor));
         }
+    }
+
+    IEnumerator BuildFloorTileNavMesh(GameObject floorTile)
+    {
+        floorTile.GetComponent<NavMeshSurface>().BuildNavMesh();
+        yield return null;
     }
 
     private void GenerateWalls()

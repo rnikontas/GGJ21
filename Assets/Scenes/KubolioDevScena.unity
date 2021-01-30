@@ -165,12 +165,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 5
-  xSize: 10
-  zSize: 10
+  xSize: 20
+  zSize: 20
   wallGO: {fileID: 3355184744428415237, guid: 371d97e7b556a2e4ca89d3076712eac9, type: 3}
   startGO: {fileID: 236382066239066091, guid: a7d2ec0bfa226874fa9433555ef49cd0, type: 3}
   finishGO: {fileID: 3041581221715071151, guid: 71d23de82afaa2d43b51b03de76ee2b3,
     type: 3}
+  powerUpsToSpawn: 7
+  powerUps:
+  - {fileID: 385719690376424812, guid: d312d606cd08e7c4694f663610f2c304, type: 3}
+  - {fileID: 6155257702159491754, guid: 42d705487871a524e85bb59a22bc2064, type: 3}
 --- !u!1 &1430777344
 GameObject:
   m_ObjectHideFlags: 0

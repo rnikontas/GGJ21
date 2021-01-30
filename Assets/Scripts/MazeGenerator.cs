@@ -23,16 +23,24 @@ public class MazeGenerator : MonoBehaviour
     private int maxDepth = 0;
     private int currentDepth = 0;
 
+    [SerializeField] private int powerUpsToSpawn;
+
+    [SerializeField] private GameObject[] powerUps;
+
     void Start()
     {
         cells = new Cell[xSize, zSize];
         GenerateWalls();
+        
         Random.InitState(seed);
         var xGridPos = Random.Range(0, xSize);
         var zGridPos = Random.Range(0, zSize);
-        Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 0, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
+
         GenerateGap(xGridPos, zGridPos);
+        Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 0, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
         Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 0, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
+
+        SpawnPowerUps();
     }
 
     private void GenerateWalls()
@@ -152,6 +160,20 @@ public class MazeGenerator : MonoBehaviour
             currentDepth--;
             }
             neighbours.Remove(selectedNeighbour.Key);
+        }
+    }
+
+    private void SpawnPowerUps()
+    {
+        var powerUpsSpawned = 0;
+        while (powerUpsSpawned < powerUpsToSpawn)
+        {
+            powerUpsSpawned++;
+            var powerUpToSpawn = powerUps[Random.Range(0, powerUps.Length)];
+            var powerUpGridPosX = Random.Range(0, xSize);
+            var powerUpGridPosZ = Random.Range(0, zSize);
+            var powerUpWorldPos = new Vector3(cells[powerUpGridPosX, powerUpGridPosZ].xWorldCoordinate, 0, cells[powerUpGridPosX, powerUpGridPosZ].zWorldCoordinate);
+            Instantiate(powerUpToSpawn, powerUpWorldPos, Quaternion.identity);
         }
     }
 }

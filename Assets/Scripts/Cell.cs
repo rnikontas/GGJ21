@@ -14,6 +14,9 @@ public class Cell
     public int xGridCoordinate;
     public int zGridCoordinate;
 
+    public float xWorldCoordinate;
+    public float zWorldCoordinate;
+
     public Cell()
     {
         visited = false;

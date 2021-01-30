@@ -7,19 +7,32 @@ using Random = UnityEngine.Random;
 
 public class MazeGenerator : MonoBehaviour
 {
+    public int seed;
+    
     [SerializeField] private int xSize;
     [SerializeField] private int zSize;
 
     [SerializeField] private GameObject wallGO;
+    [SerializeField] private GameObject startGO;
+    [SerializeField] private GameObject finishGO;
 
     private Cell[,] cells;
+
+    private int endXGridPos = 0;
+    private int endZGridPos = 0;
+    private int maxDepth = 0;
+    private int currentDepth = 0;
 
     void Start()
     {
         cells = new Cell[xSize, zSize];
         GenerateWalls();
-        
-        GenerateGap(Random.Range(0, xSize-1), Random.Range(0, zSize-1));
+        Random.InitState(seed);
+        var xGridPos = Random.Range(0, xSize);
+        var zGridPos = Random.Range(0, zSize);
+        Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 0, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
+        GenerateGap(xGridPos, zGridPos);
+        Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 0, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
     }
 
     private void GenerateWalls()
@@ -29,13 +42,15 @@ public class MazeGenerator : MonoBehaviour
         var zPos = 0.5f * (zSize - 1) * wallXSize;
         var distFromCellCenter = wallXSize * 0.5f;
 
-        for (int i = 0; i < xSize; i++)
+        for (int i = 0; i < zSize; i++)
         {
-            for (int j = 0; j < zSize; j++)
+            for (int j = 0; j < xSize; j++)
             {
                 var cell = new Cell();
-                cell.xGridCoordinate = i;
-                cell.zGridCoordinate = j;
+                cell.xWorldCoordinate = xPos;
+                cell.zWorldCoordinate = zPos;
+                cell.xGridCoordinate = j;
+                cell.zGridCoordinate = i;
                 
                 cell.rightWall = Instantiate(wallGO, new Vector3(xPos + distFromCellCenter, 0, zPos),
                     Quaternion.identity * Quaternion.Euler(0, 90, 0));
@@ -48,7 +63,7 @@ public class MazeGenerator : MonoBehaviour
                 }
                 else
                 {
-                    cell.leftWall = cells[i, j - 1].rightWall;
+                    cell.leftWall = cells[j-1, i].rightWall;
                 }
 
                 if (i == 0)
@@ -58,10 +73,10 @@ public class MazeGenerator : MonoBehaviour
                 }
                 else
                 {
-                    cell.topWall = cells[i - 1, j].bottomWall;
+                    cell.topWall = cells[j, i-1].bottomWall;
                 }
 
-                cells[i, j] = cell;
+                cells[j, i] = cell;
                 xPos += wallXSize;
             }
 
@@ -72,40 +87,47 @@ public class MazeGenerator : MonoBehaviour
 
     private void GenerateGap(int x, int z)
     {
+        if (currentDepth > maxDepth)
+        {
+            maxDepth = currentDepth;
+            endXGridPos = x;
+            endZGridPos = z;
+        }
+        
         cells[x, z].visited = true;
         Dictionary<String, Cell> neighbours = new Dictionary<string, Cell>();
         if (x > 0)
         {
             if (!cells[x-1, z].visited)
             {
-                neighbours["top"] = cells[x-1, z];
+                neighbours["left"] = cells[x-1, z];
             }
         }
         if (z < zSize - 1)
         {
             if (!cells[x, z + 1].visited)
             {
-                neighbours["right"] = cells[x, z+1];
+                neighbours["bottom"] = cells[x, z+1];
             }
         }
         if (x < xSize - 1)
         {
             if (!cells[x+1, z].visited)
             {
-                neighbours["bottom"] = cells[x+1, z];
+                neighbours["right"] = cells[x+1, z];
             }
         }
         if (z > 0)
         {
             if (!cells[x, z-1].visited)
             {
-                neighbours["left"] = cells[x, z-1];
+                neighbours["top"] = cells[x, z-1];
             }
         }
 
         while (neighbours.Count != 0)
         {
-            var neighbourToSelect = Random.Range(0, neighbours.Count - 1);
+            var neighbourToSelect = Random.Range(0, neighbours.Count);
             var selectedNeighbour = neighbours.ElementAt(neighbourToSelect);
             if (!selectedNeighbour.Value.visited)
             {
@@ -124,7 +146,10 @@ public class MazeGenerator : MonoBehaviour
                     GameObject.Destroy(cells[x, z].bottomWall);
                     break;
             }
+
+            currentDepth++;
             GenerateGap(selectedNeighbour.Value.xGridCoordinate, selectedNeighbour.Value.zGridCoordinate);
+            currentDepth--;
             }
             neighbours.Remove(selectedNeighbour.Key);
         }

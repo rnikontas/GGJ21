@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
         AirConsole.instance.onMessage += OnMessage;
         AirConsole.instance.onConnect += OnConnect;
         AirConsole.instance.onDisconnect += OnDisconnect;
+
     }
 
     void Start()
@@ -55,18 +56,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void OnConnect(int deviceId)
+    public void OnConnect(int deviceId)
     {
         CheckIfReadyToStart();
         FindObjectOfType<RoomCanvasUI>().indicatorMovement.SetActive(true);
     }
 
-    void OnDisconnect(int deviceId)
+    public void OnDisconnect(int deviceId)
     {
 
     }
 
-    void OnMessage(int deviceId, JToken data)
+    public void OnMessage(int deviceId, JToken data)
     {
         int player = AirConsole.instance.ConvertDeviceIdToPlayerNumber(deviceId);
         if (player < 0)

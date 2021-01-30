@@ -8,7 +8,7 @@ using static TimedPowerupEffect;
 public class Player : MonoBehaviour
 {
 
-    public int health = 100;
+    private int health = 100;
     public CharacterController characterController;
 
     void Awake()
@@ -28,7 +28,6 @@ public class Player : MonoBehaviour
 
     }
 
-
     void OnTriggerEnter(Collider other) {
         var triggerObject = other.gameObject;
         switch (triggerObject.tag) { 
@@ -44,12 +43,28 @@ public class Player : MonoBehaviour
             break; 
 
         case "Health": 
-            health += 10;
+            increaseHealth(10);
             triggerObject.SetActive(false);
             break; 
   
         default:
             break; 
         } 
+    }
+
+    public int increaseHealth(int amount) {
+        health += amount;
+        if (health > 100){
+            health = 100;
+        }
+        return health;
+    }
+
+    public int reduceHealth(int amount) {
+        health -= amount;
+        if (health < 0){
+            health = 0;
+        }
+        return health;
     }
 }

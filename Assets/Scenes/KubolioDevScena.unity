@@ -167,8 +167,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debug: 1
   testSeed: 0
-  xSize: 15
-  zSize: 15
+  xSize: 10
+  zSize: 10
   wallGO:
   - {fileID: 2335240092310910224, guid: 371d97e7b556a2e4ca89d3076712eac9, type: 3}
   startGO: {fileID: 236382066239066091, guid: a7d2ec0bfa226874fa9433555ef49cd0, type: 3}

@@ -164,7 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19dcb00c88e808d41b94f424405ba9a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: 5
   xSize: 20
   zSize: 20
   wallGO: {fileID: 3355184744428415237, guid: 371d97e7b556a2e4ca89d3076712eac9, type: 3}

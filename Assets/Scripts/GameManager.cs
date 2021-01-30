@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public int seed;
     public bool isReadyToStart;
     public GameObject Player;
 
@@ -86,7 +87,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        var seed = Random.Range(0, 100);
+        seed = Random.Range(0, 100);
         Debug.Log($"Seed: {seed}");
         AirConsole.instance.SetActivePlayers(1);
         if (PhotonNetwork.IsMasterClient) 

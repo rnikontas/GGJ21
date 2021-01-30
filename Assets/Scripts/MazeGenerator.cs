@@ -7,8 +7,6 @@ using Random = UnityEngine.Random;
 
 public class MazeGenerator : MonoBehaviour
 {
-    public int seed;
-    
     [SerializeField] private int xSize;
     [SerializeField] private int zSize;
 
@@ -32,7 +30,7 @@ public class MazeGenerator : MonoBehaviour
         cells = new Cell[xSize, zSize];
         GenerateWalls();
         
-        Random.InitState(seed);
+        Random.InitState(GameManager.instance.seed);
         var xGridPos = Random.Range(0, xSize);
         var zGridPos = Random.Range(0, zSize);
 

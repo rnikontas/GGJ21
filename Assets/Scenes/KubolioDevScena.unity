@@ -185,7 +185,10 @@ MonoBehaviour:
   player: {fileID: 4167716675838891645, guid: 7be9c84489f4245429d6a727a18ca112, type: 3}
   networkedPlayer: {fileID: 2099356263524047263, guid: 7743a9e18870fb84c872d26250ccced7,
     type: 3}
-  extraWallsToRemove: 10
+  extraWallsToRemove: 0
+  biblico: {fileID: 2545979800504372219, guid: b0abf2a46b5104b3481b9756d300a86c, type: 3}
+  stompus: {fileID: 7885017077903644834, guid: 24944cfd61d744cd3855c1091fb981bb, type: 3}
+  stratus: {fileID: 2470151999710223245, guid: 94a176ae0cdeb4d6988a3fcd98fa0f53, type: 3}
 --- !u!114 &838985783
 MonoBehaviour:
   m_ObjectHideFlags: 0

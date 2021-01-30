@@ -45,6 +45,10 @@ public class MazeGenerator : MonoBehaviour
         
     private List<GameObject> floorList = new List<GameObject>();
 
+    [SerializeField] private GameObject biblico;
+    [SerializeField] private GameObject stompus;
+    [SerializeField] private GameObject stratus;
+
     void Awake()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -103,7 +107,23 @@ public class MazeGenerator : MonoBehaviour
         Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 2, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
         RemoveExtraWalls();
         SpawnPowerUps();
-       // BuildingNavMesh();
+        BuildingNavMesh();
+        DropEnemies();
+    }
+
+    private void DropEnemies()
+    {
+        var biblicoxGridPos = Random.Range(0, xSize);
+        var biblicozGridPos = Random.Range(0, zSize);
+        Instantiate(biblico, new Vector3(cells[biblicoxGridPos, biblicozGridPos].xWorldCoordinate, 2, cells[biblicoxGridPos, biblicozGridPos].zWorldCoordinate), Quaternion.identity);
+
+        var stompusxGridPos = Random.Range(0, xSize);
+        var stompuszGridPos = Random.Range(0, zSize);
+        Instantiate(stompus, new Vector3(cells[stompusxGridPos, stompuszGridPos].xWorldCoordinate, 2, cells[stompusxGridPos, stompuszGridPos].zWorldCoordinate), Quaternion.identity);
+
+        var stratusxGridPos = Random.Range(0, xSize);
+        var stratuszGridPos = Random.Range(0, zSize);
+        Instantiate(stratus, new Vector3(cells[stratusxGridPos, stratuszGridPos].xWorldCoordinate, 2, cells[stratusxGridPos, stratuszGridPos].zWorldCoordinate), Quaternion.identity);
     }
 
     private void BuildingNavMesh()

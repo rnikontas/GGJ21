@@ -39,6 +39,8 @@ public class MazeGenerator : MonoBehaviour
 
     [SerializeField] GameObject networkedPlayer;
 
+    [SerializeField] private int extraWallsToRemove;
+        
     private List<GameObject> floorList = new List<GameObject>();
 
     void Awake()
@@ -85,7 +87,6 @@ public class MazeGenerator : MonoBehaviour
         }
         var xGridPos = Random.Range(0, xSize);
         var zGridPos = Random.Range(0, zSize);
-        print(xGridPos + " " +zGridPos);
         GenerateGap(xGridPos, zGridPos);
         Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
         var playerPosition = new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate);
@@ -98,8 +99,9 @@ public class MazeGenerator : MonoBehaviour
             Instantiate(player, playerPosition, Quaternion.identity);
         }
         Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 2, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
+        RemoveExtraWalls();
         SpawnPowerUps();
-        BuildingNavMesh();
+       // BuildingNavMesh();
     }
 
     private void BuildingNavMesh()
@@ -179,85 +181,26 @@ public class MazeGenerator : MonoBehaviour
         }
         
         cells[x, z].visited = true;
-        
 
+        Dictionary<String, Cell> neighbours = GetUnvisitedNeighbours(x, z);
         
-        Dictionary<String, Cell> neighbours = new Dictionary<string, Cell>();
-        if (x > 0)
-        {
-            if (!cells[x-1, z].visited)
-            {
-                neighbours["left"] = cells[x-1, z];
-            }
-        }
-        if (z < zSize - 1)
-        {
-            if (!cells[x, z + 1].visited)
-            {
-                neighbours["bottom"] = cells[x, z+1];
-            }
-        }
-        if (x < xSize - 1)
-        {
-            if (!cells[x+1, z].visited)
-            {
-                neighbours["right"] = cells[x+1, z];
-            }
-        }
-        if (z > 0)
-        {
-            if (!cells[x, z-1].visited)
-            {
-                neighbours["top"] = cells[x, z-1];
-            }
-        }
-
         while (neighbours.Count != 0)
         {
             var neighbourToSelect = Random.Range(0, neighbours.Count);
             var selectedNeighbour = neighbours.ElementAt(neighbourToSelect);
             if (!selectedNeighbour.Value.visited)
             {
-            switch (selectedNeighbour.Key)
-            {
-                case "left":
-                    GameObject.Destroy(cells[x, z].leftWall);
-                    cells[x, z].leftWall = null;
-                    cells[x - 1, z].rightWall = null;
-                    break;
-                case "right":
-                    GameObject.Destroy(cells[x, z].rightWall);
-                    cells[x, z].rightWall = null;
-                    cells[x + 1, z].leftWall = null;
-                    break;
-                case "top":
-                    GameObject.Destroy(cells[x, z].topWall);
-                    cells[x, z].topWall = null;
-                    cells[x, z-1].bottomWall = null;
-                    break;
-                case "bottom":
-                    GameObject.Destroy(cells[x, z].bottomWall);
-                    cells[x, z].bottomWall = null;
-                    cells[x, z+1].topWall = null;
-                    break;
-            }
+                RemoveWall(selectedNeighbour.Key, x, z);
+                if (currentTorchGap == torchGap)
+                {
+                    currentTorchGap = 0;
+                    AddTorch(cells[x, z]);
+                }
+                else currentTorchGap++;
 
-            if (cells[x, z].torch != null)
-            {
-                Destroy(cells[x, z].torch);
-                cells[x, z].torch = null;
-            }
-                    
-            if (currentTorchGap == torchGap)
-            {
-                currentTorchGap = 0;
-                AddTorch(cells[x, z]);
-            }
-            else currentTorchGap++;
-
-            currentDepth++;
-            GenerateGap(selectedNeighbour.Value.xGridCoordinate, selectedNeighbour.Value.zGridCoordinate);
-            currentDepth--;
+                currentDepth++;
+                GenerateGap(selectedNeighbour.Value.xGridCoordinate, selectedNeighbour.Value.zGridCoordinate);
+                currentDepth--;
             }
             neighbours.Remove(selectedNeighbour.Key);
         }
@@ -295,5 +238,129 @@ public class MazeGenerator : MonoBehaviour
         {
             cell.torch = Instantiate(torch, new Vector3(cell.xWorldCoordinate + 0.775f, 2, cell.zWorldCoordinate), Quaternion.identity);
         }
+    }
+
+    private void RemoveExtraWalls()
+    {
+        for (int i = 0; i < extraWallsToRemove; i++)
+        {
+            var x = Random.Range(0, xSize);
+            var z = Random.Range(0, zSize);
+
+            var neighbours = GetNeighboursWithWalls(x, z);
+            
+            if (neighbours.Count != 0)
+            {
+                var neighbourToSelect = Random.Range(0, neighbours.Count);
+                var selectedNeighbour = neighbours.ElementAt(neighbourToSelect);
+                RemoveWall(selectedNeighbour.Key, x, z);
+            }
+            else
+            {
+                i--;
+            }
+        }
+    }
+
+    private void RemoveWall(string wallToRemove, int x, int z)
+    {
+        switch (wallToRemove)
+        {
+            case "left":
+                GameObject.Destroy(cells[x, z].leftWall);
+                cells[x, z].leftWall = null;
+                cells[x - 1, z].rightWall = null;
+                break;
+            case "right":
+                GameObject.Destroy(cells[x, z].rightWall);
+                cells[x, z].rightWall = null;
+                cells[x + 1, z].leftWall = null;
+                break;
+            case "top":
+                GameObject.Destroy(cells[x, z].topWall);
+                cells[x, z].topWall = null;
+                cells[x, z-1].bottomWall = null;
+                break;
+            case "bottom":
+                GameObject.Destroy(cells[x, z].bottomWall);
+                cells[x, z].bottomWall = null;
+                cells[x, z+1].topWall = null;
+                break;
+        }
+        if (cells[x, z].torch != null)
+        {
+            Destroy(cells[x, z].torch);
+            cells[x, z].torch = null;
+        }
+    }
+
+    private Dictionary<String, Cell> GetUnvisitedNeighbours(int x, int z)
+    {
+        Dictionary<String, Cell> neighbours = new Dictionary<string, Cell>();
+        if (x > 0)
+        {
+            if (!cells[x-1, z].visited)
+            {
+                neighbours["left"] = cells[x-1, z];
+            }
+        }
+        if (z < zSize - 1)
+        {
+            if (!cells[x, z + 1].visited)
+            {
+                neighbours["bottom"] = cells[x, z+1];
+            }
+        }
+        if (x < xSize - 1)
+        {
+            if (!cells[x+1, z].visited)
+            {
+                neighbours["right"] = cells[x+1, z];
+            }
+        }
+        if (z > 0)
+        {
+            if (!cells[x, z-1].visited)
+            {
+                neighbours["top"] = cells[x, z-1];
+            }
+        }
+
+        return neighbours;
+    }
+    
+    private Dictionary<String, Cell> GetNeighboursWithWalls(int x, int z)
+    {
+        Dictionary<String, Cell> neighbours = new Dictionary<string, Cell>();
+        if (x > 0)
+        {
+            if (cells[x, z].leftWall != null)
+            {
+                neighbours["left"] = cells[x-1, z];
+            }
+        }
+        if (z < zSize - 1)
+        {
+            if (cells[x, z].bottomWall != null)
+            {
+                neighbours["bottom"] = cells[x, z+1];
+            }
+        }
+        if (x < xSize - 1)
+        {
+            if (cells[x, z].rightWall != null)
+            {
+                neighbours["right"] = cells[x+1, z];
+            }
+        }
+        if (z > 0)
+        {
+            if (cells[x, z].topWall != null)
+            {
+                neighbours["top"] = cells[x, z-1];
+            }
+        }
+
+        return neighbours;
     }
 }

@@ -49,6 +49,10 @@ public class GameManager : MonoBehaviour
         {
             isReadyToStart = true;
         }
+        else
+        {
+            isReadyToStart = false;
+        }
     }
 
 
@@ -58,6 +62,6 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Seed: {seed}");
 
         if (PhotonNetwork.IsMasterClient) 
-            PhotonNetwork.LoadLevel("KubolioDevScena");
+            PhotonNetwork.LoadLevel("Level");
     }
 }

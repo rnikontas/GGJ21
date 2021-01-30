@@ -5,6 +5,7 @@ using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEngine.AI;
 
 public class MazeGenerator : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] private GameObject player;
 
     [SerializeField] GameObject networkedPlayer;
+
+    private List<GameObject> floorList = new List<GameObject>();
 
     void Awake()
     {
@@ -92,11 +95,21 @@ public class MazeGenerator : MonoBehaviour
         Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 2, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
 
         SpawnPowerUps();
+
+        BuildingNavMesh();
+    }
+
+    private void BuildingNavMesh()
+    {
+        foreach (var floor in floorList)
+        {
+            floor.GetComponent<NavMeshSurface>().BuildNavMesh();
+        }
     }
 
     private void GenerateWalls()
     {
-        var wallXSize = wallGO[0].transform.GetChild(0).GetComponent<MeshRenderer>().bounds.extents.x * 2;
+        var wallXSize = wallGO[0].GetComponent<MeshRenderer>().bounds.extents.x * 2;
         var xPos = -0.5f * (xSize - 1) * wallXSize;
         var zPos = 0.5f * (zSize - 1) * wallXSize;
         var distFromCellCenter = wallXSize * 0.5f;
@@ -112,7 +125,8 @@ public class MazeGenerator : MonoBehaviour
                 cell.xGridCoordinate = j;
                 cell.zGridCoordinate = i;
 
-                Instantiate(floorGO, new Vector3(xPos, 0.2f, zPos), Quaternion.identity);
+                var tempFloor = Instantiate(floorGO, new Vector3(xPos, 0.2f, zPos), Quaternion.identity);
+                floorList.Add(tempFloor);
                 cell.rightWall = Instantiate(wallToGenerate, new Vector3(xPos + distFromCellCenter, 0, zPos),
                     Quaternion.identity * Quaternion.Euler(0, 90, 0));
                 cell.bottomWall = Instantiate(wallToGenerate, new Vector3(xPos, 0, zPos - distFromCellCenter),

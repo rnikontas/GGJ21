@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     public bool debug;
 
     public PickupState pickupState;
-
     #region DEBUG_ONLY
     public float turnSpeed;
     public float moveSpeed;
@@ -22,7 +21,6 @@ public class Player : MonoBehaviour
     void Awake()
     {
         characterController = gameObject.GetComponent<CharacterController>();
-        pickupState = gameObject.GetComponentInChildren<PickupState>();
     }
 
     // Start is called before the first frame update
@@ -56,7 +54,8 @@ public class Player : MonoBehaviour
     }
 
 
-    public float getMoveSpeed() {
+    public float getMoveSpeed()
+    {
         var speedBoost = pickupState.getTimedPowerUpEffect(PowerUpName.Speed);
         float speedBoostValue = speedBoost != null ? speedBoost.strength : 0f;
         return moveSpeed + speedBoostValue;

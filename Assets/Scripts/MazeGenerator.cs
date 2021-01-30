@@ -2,13 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Photon.Pun;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class MazeGenerator : MonoBehaviour
 {
-    public int seed;
-    
     [SerializeField] private int xSize;
     [SerializeField] private int zSize;
 
@@ -24,20 +23,46 @@ public class MazeGenerator : MonoBehaviour
     private int currentDepth = 0;
 
     [SerializeField] private int powerUpsToSpawn;
-
     [SerializeField] private GameObject[] powerUps;
+    
+    [SerializeField] private GameObject player;
+
+    void Awake()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("GetSeed", RpcTarget.Others, GameManager.instance.seed);
+        }
+    }
+
+    [PunRPC]
+    void GetSeed(int seed)
+    {
+        Debug.LogError($"Got seed {seed}");
+        GameManager.instance.seed = seed;
+        Generate();
+    }
 
     void Start()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            Generate();
+
+    }
+
+    private void Generate()
     {
         cells = new Cell[xSize, zSize];
         GenerateWalls();
         
-        Random.InitState(seed);
+        Random.InitState(GameManager.instance.seed);
         var xGridPos = Random.Range(0, xSize);
         var zGridPos = Random.Range(0, zSize);
 
         GenerateGap(xGridPos, zGridPos);
         Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 0, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
+        Instantiate(player, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 0, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
         Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 0, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
 
         SpawnPowerUps();

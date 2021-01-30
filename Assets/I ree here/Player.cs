@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using static TimedPowerupEffect;
 
@@ -11,12 +12,17 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (PhotonNetwork.IsMasterClient)
+        {
+
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+
+
         if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(0, 0, 10 * Time.deltaTime);
@@ -33,6 +39,14 @@ public class Player : MonoBehaviour
         {
             transform.Rotate(Vector3.up * speed * Time.deltaTime);
         }
+
+    }
+
+
+    [PunRPC]
+    void UpdatePositionAndRotation(Transform transform)
+    {
+        gameObject.transform.position = transform.position;
     }
 
     void OnTriggerEnter(Collider other) {

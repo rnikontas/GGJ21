@@ -319,8 +319,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 1
-  pickupState: {fileID: 251821661}
+  pickupState: {fileID: 0}
   turnSpeed: 69
-  moveSpeed: 69
+  moveSpeed: 10
   health: 100
   characterController: {fileID: 0}

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Photon.Pun;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour
@@ -12,9 +13,18 @@ public class CharacterController : MonoBehaviour
 
     void Start()
     {
-        
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("UpdatePositionAndRotation", RpcTarget.Others, transform.position, transform.rotation);
+        }
     }
 
+    [PunRPC]
+    void UpdatePositionAndRotation(Vector3 position, Quaternion rotation)
+    {
+        gameObject.transform.SetPositionAndRotation(position, rotation);
+    }
     
     void Update()
     {

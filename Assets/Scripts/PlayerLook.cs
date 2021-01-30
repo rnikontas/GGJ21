@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
 {
-    public float lookSensitivity = 50f;
+    public float lookSensitivity = 1.15f;
 
     public Transform playerBody;
 
@@ -41,7 +41,7 @@ public class PlayerLook : MonoBehaviour
         {
             if ((bool)command["data"]["pressed"])
             {
-                _lookX = 1.0f;
+                _lookX = 1.0f * lookSensitivity;
             } else
             {
                 _lookX = 0f;
@@ -54,7 +54,7 @@ public class PlayerLook : MonoBehaviour
         {
             if ((bool)command["data"]["pressed"])
             {
-                _lookX = -1.0f;
+                _lookX = -1.0f * lookSensitivity;
             } else
             {
                 _lookX = 0;
@@ -65,7 +65,7 @@ public class PlayerLook : MonoBehaviour
         {
             if ((bool)command["data"]["pressed"])
             {
-                _lookY = 1.0f;
+                _lookY = 1.0f * lookSensitivity;
             } else
             {
                 _lookY = 0;
@@ -78,7 +78,7 @@ public class PlayerLook : MonoBehaviour
         {
             if ((bool)command["data"]["pressed"])
             {
-                _lookY = -1.0f;
+                _lookY = -1.0f * lookSensitivity;
             } else
             {
                 _lookY = 0;

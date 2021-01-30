@@ -17,16 +17,23 @@ public class PickupState : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("PickupState loaded");
-        // Testing
-        // addTimedPowerUpEffect(PowerUpName.Speed, new TimedPowerupEffect(5, 1));
-        // addTimedPowerUpEffect(PowerUpName.Vision, new TimedPowerupEffect(3, 2));
-        // addTimedPowerUpEffect(PowerUpName.Speed, new TimedPowerupEffect(8, 3)); // overwrites previous speed buff
+        Debug.Log("PickupState initiated");
     }
 
     public void addTimedPowerUpEffect(PowerUpName name, TimedPowerupEffect timedPowerupEffect) {
         activePowerupEffects[name] = timedPowerupEffect;
     }
+
+    public TimedPowerupEffect getTimedPowerUpEffect(PowerUpName name) {
+        try
+        {
+            return activePowerupEffects[name];
+        }
+        catch (KeyNotFoundException)
+        {
+            return null;
+        }
+    } 
 
     // Update is called once per frame
     void Update()

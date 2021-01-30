@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
     {
         seed = Random.Range(0, 100);
         Debug.Log($"Seed: {seed}");
+
         AirConsole.instance.SetActivePlayers(1);
         if (PhotonNetwork.IsMasterClient) 
             PhotonNetwork.LoadLevel("KubolioDevScena");

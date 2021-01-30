@@ -21,11 +21,9 @@ public class GameManager : MonoBehaviour
     {
         if (instance == null)
             instance = this;
-
         AirConsole.instance.onMessage += OnMessage;
         AirConsole.instance.onConnect += OnConnect;
         AirConsole.instance.onDisconnect += OnDisconnect;
-
     }
 
     void Start()

@@ -78,7 +78,7 @@ public class MazeGenerator : MonoBehaviour
         {
             PhotonNetwork.Instantiate(networkedPlayer.name, playerPosition, Quaternion.identity);
         }
-        else
+        else if(debug)
         {
             Instantiate(player, playerPosition, Quaternion.identity);
         }

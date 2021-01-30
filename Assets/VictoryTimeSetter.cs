@@ -15,11 +15,18 @@ public class VictoryTimeSetter : MonoBehaviour
         if (timerObjects.Length > 0) {
             if (timerObjects.Length == 1) {
                 var timer = timerObjects[0].GetComponent<Timer>();
-                var minutes = Math.Floor(timer.time / 60);
-                var seconds = timer.time - minutes * 60;
-                textComponent.text = $"Your time: {minutes}:{seconds.ToString("00.00")}";
+                if (timer != null) {
+                    var minutes = Math.Floor(timer.time / 60);
+                    var seconds = timer.time - minutes * 60;
+                    textComponent.text = $"Your time: {minutes}:{seconds.ToString("00.00")}";
+
+                    return;
+                }
+            } else {
+                Debug.LogError("Multiple gameObjects found with tag \"Timer\"");
             }
         }
-
+        // In case something fucks up
+        textComponent.text = $"Something with the timer broke #blameCalories";
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using Photon.Pun;
 using UnityEngine;
 using static TimedPowerupEffect;
@@ -8,7 +9,13 @@ public class Player : MonoBehaviour
 {
     public PickupState pickupState;
 
-    public float speed = 9;
+    public float turnSpeed;
+
+    public float moveSpeed;
+
+    public int health = 100;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,19 +32,19 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(0, 0, 10 * Time.deltaTime);
+            transform.Translate(0, 0, getMoveSpeed() * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(0, 0, -10 * Time.deltaTime);
+            transform.Translate(0, 0, -getMoveSpeed() * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Rotate(-Vector3.up * speed * Time.deltaTime);
+            transform.Rotate(-Vector3.up * turnSpeed * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Rotate(Vector3.up * speed * Time.deltaTime);
+            transform.Rotate(Vector3.up * turnSpeed * Time.deltaTime);
         }
 
     }
@@ -49,17 +56,28 @@ public class Player : MonoBehaviour
         gameObject.transform.position = transform.position;
     }
 
+    public float getMoveSpeed() {
+        var speedBoost = pickupState.getTimedPowerUpEffect(PowerUpName.Speed);
+        float speedBoostValue = speedBoost != null ? speedBoost.strength : 0f;
+        return moveSpeed + speedBoostValue;
+    }
+
     void OnTriggerEnter(Collider other) {
         var triggerObject = other.gameObject;
         switch (triggerObject.tag) { 
               
         case "Cheese": 
-            pickupState.addTimedPowerUpEffect(PowerUpName.Speed, new TimedPowerupEffect());
+            pickupState.addTimedPowerUpEffect(PowerUpName.Speed, new TimedPowerupEffect(3 , 30));
             triggerObject.SetActive(false);
             break; 
   
         case "Carrot": 
             pickupState.addTimedPowerUpEffect(PowerUpName.Vision, new TimedPowerupEffect());
+            triggerObject.SetActive(false);
+            break; 
+
+        case "Health": 
+            health += 10;
             triggerObject.SetActive(false);
             break; 
   

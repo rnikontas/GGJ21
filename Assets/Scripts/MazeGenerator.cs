@@ -72,7 +72,7 @@ public class MazeGenerator : MonoBehaviour
         var zGridPos = Random.Range(0, zSize);
 
         GenerateGap(xGridPos, zGridPos);
-        Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 0, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
+        Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
         var playerPosition = new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate);
         if (PhotonNetwork.IsMasterClient)
         {
@@ -82,7 +82,7 @@ public class MazeGenerator : MonoBehaviour
         {
             Instantiate(player, playerPosition, Quaternion.identity);
         }
-        Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 0, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
+        Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 2, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
 
         SpawnPowerUps();
     }
@@ -217,7 +217,7 @@ public class MazeGenerator : MonoBehaviour
             var powerUpToSpawn = powerUps[Random.Range(0, powerUps.Length)];
             var powerUpGridPosX = Random.Range(0, xSize);
             var powerUpGridPosZ = Random.Range(0, zSize);
-            var powerUpWorldPos = new Vector3(cells[powerUpGridPosX, powerUpGridPosZ].xWorldCoordinate, 0, cells[powerUpGridPosX, powerUpGridPosZ].zWorldCoordinate);
+            var powerUpWorldPos = new Vector3(cells[powerUpGridPosX, powerUpGridPosZ].xWorldCoordinate, 2, cells[powerUpGridPosX, powerUpGridPosZ].zWorldCoordinate);
             Instantiate(powerUpToSpawn, powerUpWorldPos, Quaternion.identity);
         }
     }

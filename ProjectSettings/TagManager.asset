@@ -8,6 +8,7 @@ TagManager:
   - Carrot
   - Bullet
   - Health
+  - Enemy
   layers:
   - Default
   - TransparentFX

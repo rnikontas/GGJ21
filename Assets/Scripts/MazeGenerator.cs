@@ -30,6 +30,8 @@ public class MazeGenerator : MonoBehaviour
     
     [SerializeField] private GameObject player;
 
+    [SerializeField] GameObject networkedPlayer;
+
     void Awake()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -71,12 +73,12 @@ public class MazeGenerator : MonoBehaviour
 
         GenerateGap(xGridPos, zGridPos);
         Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 0, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
-        var playerPosition = new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 0, cells[xGridPos, zGridPos].zWorldCoordinate);
+        var playerPosition = new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate);
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.Instantiate(player.name, playerPosition, Quaternion.identity);
+            PhotonNetwork.Instantiate(networkedPlayer.name, playerPosition, Quaternion.identity);
         }
-        else
+        else if(debug)
         {
             Instantiate(player, playerPosition, Quaternion.identity);
         }

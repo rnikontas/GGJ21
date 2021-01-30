@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class MazeGenerator : MonoBehaviour
 {
+    public bool debug;
+
     [SerializeField] private int testSeed;
     [SerializeField] private int xSize;
     [SerializeField] private int zSize;
@@ -49,11 +51,10 @@ public class MazeGenerator : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient)
             Generate();
-        else
+        if (debug)
         {
             Generate();
         }
-
     }
 
     private void Generate()
@@ -70,11 +71,15 @@ public class MazeGenerator : MonoBehaviour
 
         GenerateGap(xGridPos, zGridPos);
         Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 0, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
-
         var playerPosition = new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 0, cells[xGridPos, zGridPos].zWorldCoordinate);
-        Instantiate(player, playerPosition, Quaternion.identity);
-        PhotonNetwork.Instantiate(player.name, playerPosition, Quaternion.identity);
-
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Instantiate(player.name, playerPosition, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(player, playerPosition, Quaternion.identity);
+        }
         Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 0, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
 
         SpawnPowerUps();

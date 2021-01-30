@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FinishReached : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class FinishReached : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            
+            SceneManager.LoadScene("Victory", LoadSceneMode.Single);
         }
     }
 }

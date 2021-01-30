@@ -24,8 +24,9 @@ public class MazeGenerator : MonoBehaviour
     private int currentDepth = 0;
 
     [SerializeField] private int powerUpsToSpawn;
-
     [SerializeField] private GameObject[] powerUps;
+    
+    [SerializeField] private GameObject player;
 
     void Start()
     {
@@ -38,6 +39,7 @@ public class MazeGenerator : MonoBehaviour
 
         GenerateGap(xGridPos, zGridPos);
         Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 0, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
+        Instantiate(player, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 0, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
         Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 0, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
 
         SpawnPowerUps();

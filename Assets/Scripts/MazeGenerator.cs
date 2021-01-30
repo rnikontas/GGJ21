@@ -18,6 +18,10 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] private GameObject floorGO;
     [SerializeField] private GameObject startGO;
     [SerializeField] private GameObject finishGO;
+    [SerializeField] private GameObject torch;
+    
+    [SerializeField] private int torchGap;
+                     private int currentTorchGap = 0;
 
     private Cell[,] cells;
 
@@ -77,7 +81,7 @@ public class MazeGenerator : MonoBehaviour
         }
         var xGridPos = Random.Range(0, xSize);
         var zGridPos = Random.Range(0, zSize);
-
+    print(xGridPos + " " +zGridPos);
         GenerateGap(xGridPos, zGridPos);
         Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
         var playerPosition = new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate);
@@ -100,6 +104,7 @@ public class MazeGenerator : MonoBehaviour
         var xPos = -0.5f * (xSize - 1) * wallXSize;
         var zPos = 0.5f * (zSize - 1) * wallXSize;
         var distFromCellCenter = wallXSize * 0.5f;
+
 
         for (int i = 0; i < zSize; i++)
         {
@@ -136,7 +141,6 @@ public class MazeGenerator : MonoBehaviour
                 {
                     cell.topWall = cells[j, i-1].bottomWall;
                 }
-
                 cells[j, i] = cell;
                 xPos += wallXSize;
             }
@@ -156,6 +160,9 @@ public class MazeGenerator : MonoBehaviour
         }
         
         cells[x, z].visited = true;
+        
+
+        
         Dictionary<String, Cell> neighbours = new Dictionary<string, Cell>();
         if (x > 0)
         {
@@ -196,17 +203,38 @@ public class MazeGenerator : MonoBehaviour
             {
                 case "left":
                     GameObject.Destroy(cells[x, z].leftWall);
+                    cells[x, z].leftWall = null;
+                    cells[x - 1, z].rightWall = null;
                     break;
                 case "right":
                     GameObject.Destroy(cells[x, z].rightWall);
+                    cells[x, z].rightWall = null;
+                    cells[x + 1, z].leftWall = null;
                     break;
                 case "top":
                     GameObject.Destroy(cells[x, z].topWall);
+                    cells[x, z].topWall = null;
+                    cells[x, z-1].bottomWall = null;
                     break;
                 case "bottom":
                     GameObject.Destroy(cells[x, z].bottomWall);
+                    cells[x, z].bottomWall = null;
+                    cells[x, z+1].topWall = null;
                     break;
             }
+
+            if (cells[x, z].torch != null)
+            {
+                Destroy(cells[x, z].torch);
+                cells[x, z].torch = null;
+            }
+                    
+            if (currentTorchGap == torchGap)
+            {
+                currentTorchGap = 0;
+                AddTorch(cells[x, z]);
+            }
+            else currentTorchGap++;
 
             currentDepth++;
             GenerateGap(selectedNeighbour.Value.xGridCoordinate, selectedNeighbour.Value.zGridCoordinate);
@@ -227,6 +255,26 @@ public class MazeGenerator : MonoBehaviour
             var powerUpGridPosZ = Random.Range(0, zSize);
             var powerUpWorldPos = new Vector3(cells[powerUpGridPosX, powerUpGridPosZ].xWorldCoordinate, 2, cells[powerUpGridPosX, powerUpGridPosZ].zWorldCoordinate);
             Instantiate(powerUpToSpawn, powerUpWorldPos, Quaternion.identity);
+        }
+    }
+
+    private void AddTorch(Cell cell)
+    {
+        if (cell.bottomWall != null)
+        {
+            cell.torch = Instantiate(torch, new Vector3(cell.xWorldCoordinate, 2, cell.zWorldCoordinate - 0.775f), Quaternion.Euler(20, 0,0));
+        }
+        else if (cell.leftWall != null)
+        {
+            cell.torch = Instantiate(torch, new Vector3(cell.xWorldCoordinate - 0.775f, 2, cell.zWorldCoordinate), Quaternion.identity);
+        }
+        else if (cell.topWall != null)
+        {
+            cell.torch = Instantiate(torch, new Vector3(cell.xWorldCoordinate, 2, cell.zWorldCoordinate + 0.775f), Quaternion.identity);
+        }
+        else if (cell.rightWall != null)
+        {
+            cell.torch = Instantiate(torch, new Vector3(cell.xWorldCoordinate + 0.775f, 2, cell.zWorldCoordinate), Quaternion.identity);
         }
     }
 }

@@ -62,5 +62,6 @@ public class PickupState : MonoBehaviour
                 newDictionary.Add(powertype, activePowerupEffects[powertype]);
             }
         }
+        activePowerupEffects = newDictionary;
     }
 }

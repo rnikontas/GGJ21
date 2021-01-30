@@ -94,6 +94,7 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
 
             roomCanvasUI.roomCode = roomCode;
             roomCanvasUI.indicatorMovement.SetActive(true);
+            GameManager.Instance.playerId = 0;
         }
         else
         {

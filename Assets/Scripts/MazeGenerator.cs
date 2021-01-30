@@ -95,6 +95,7 @@ public class MazeGenerator : MonoBehaviour
         var zGridPos = Random.Range(0, zSize);
         GenerateGap(xGridPos, zGridPos);
         Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
+        CheckAndSetOccupied(cells[xGridPos, zGridPos]);
         var playerPosition = new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate);
         if (PhotonNetwork.IsMasterClient)
         {
@@ -105,6 +106,7 @@ public class MazeGenerator : MonoBehaviour
             Instantiate(player, playerPosition, Quaternion.identity);
         }
         Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 2, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
+        CheckAndSetOccupied(cells[endXGridPos, endZGridPos]);
         RemoveExtraWalls();
         SpawnPowerUps();
         BuildingNavMesh();
@@ -227,12 +229,16 @@ public class MazeGenerator : MonoBehaviour
         var powerUpsSpawned = 0;
         while (powerUpsSpawned < powerUpsToSpawn)
         {
-            powerUpsSpawned++;
             var powerUpToSpawn = powerUps[Random.Range(0, powerUps.Length)];
             var powerUpGridPosX = Random.Range(0, xSize);
             var powerUpGridPosZ = Random.Range(0, zSize);
-            var powerUpWorldPos = new Vector3(cells[powerUpGridPosX, powerUpGridPosZ].xWorldCoordinate, 2, cells[powerUpGridPosX, powerUpGridPosZ].zWorldCoordinate);
-            Instantiate(powerUpToSpawn, powerUpWorldPos, Quaternion.identity);
+            if (!CheckAndSetOccupied(cells[powerUpGridPosX, powerUpGridPosZ]))
+            {
+                var powerUpWorldPos = new Vector3(cells[powerUpGridPosX, powerUpGridPosZ].xWorldCoordinate, 2,
+                    cells[powerUpGridPosX, powerUpGridPosZ].zWorldCoordinate);
+                Instantiate(powerUpToSpawn, powerUpWorldPos, Quaternion.identity);
+                powerUpsSpawned++;
+            }
         }
     }
 
@@ -378,5 +384,16 @@ public class MazeGenerator : MonoBehaviour
         }
 
         return neighbours;
+    }
+
+    private bool CheckAndSetOccupied(Cell cell)
+    {
+        if (cell.isOccupied)
+            return true;
+        else
+        {
+            cell.isOccupied = true;
+            return false;
+        }
     }
 }

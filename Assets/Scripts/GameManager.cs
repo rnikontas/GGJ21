@@ -4,19 +4,18 @@ using System.Threading;
 using UnityEngine;
 using NDream.AirConsole;
 using Newtonsoft.Json.Linq;
+using Photon.Pun;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public bool isReadyToStart;
     public GameObject Player;
-    public int PlayerIDMovement = 0;
-    public int PlayerIDPuzzle = 1;
 
-    CharacterController m_CharacterController;
-    PlayerLook m_PlayerLook;
+    CharacterController _CharacterController;
+    PlayerLook _PlayerLook;
 
-    // Start is called before the first frame update
     void Awake()
     {
         if (instance == null)
@@ -35,12 +34,21 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_CharacterController == null)
+        if (_CharacterController == null)
         {
-            m_CharacterController = FindObjectOfType<CharacterController>();
-            m_PlayerLook = FindObjectOfType<PlayerLook>();
+            _CharacterController = FindObjectOfType<CharacterController>();
+            _PlayerLook = FindObjectOfType<PlayerLook>();
         }
             
+    }
+
+    void CheckIfReadyToStart()
+    {
+        if (PhotonNetwork.IsMasterClient &&
+            PhotonNetwork.CurrentRoom.PlayerCount == 3)
+        {
+            isReadyToStart = true;
+        }
     }
 
     void OnConnect(int deviceId)
@@ -59,32 +67,24 @@ public class GameManager : MonoBehaviour
         int player = AirConsole.instance.ConvertDeviceIdToPlayerNumber(deviceId);
         if (player < 0)
             return;
-        Debug.Log(data);
-        if (player == PlayerIDMovement)
+
+        if ((string)data["element"] == "view-0-section-3-element-0")
         {
-            if ((string)data["element"] == "view-0-section-3-element-0")
-            {
-                m_CharacterController.Command(data);
-            }
-
-            if ((string)data["element"] == "view-0-section-4-element-0")
-            {
-                m_PlayerLook.Command(data);
-            }
-
+                _CharacterController.Command(data);
         }
 
-        if (player == PlayerIDPuzzle)
+        if ((string)data["element"] == "view-0-section-4-element-0")
         {
-
+                _PlayerLook.Command(data);
         }
 
     }
 
-    void StartGame()
+
+    public void StartGame()
     {
-        AirConsole.instance.SetActivePlayers(2);
-        Thread.Sleep(2000);
-        SceneManager.LoadScene("testLevel");
+        AirConsole.instance.SetActivePlayers(1);
+        if (PhotonNetwork.IsMasterClient) 
+            PhotonNetwork.LoadLevel("testLevel");
     }
 }

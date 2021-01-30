@@ -9,28 +9,28 @@ public class PlayerLook : MonoBehaviour
 
     public Transform playerBody;
 
-    float m_xRotation;
-    float lookX = 0f;
-    float lookY = 0f;
+    float _xRotation;
+    float _lookX = 0f;
+    float _lookY = 0f;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         //float lookX = 1 * lookSensitivity * Time.deltaTime;
         //float lookY = 1 * lookSensitivity * Time.deltaTime;
 
 
-        m_xRotation -= lookY;
-        m_xRotation = Mathf.Clamp(m_xRotation, -90f, 90f);
+        _xRotation -= _lookY;
+        _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
 
-        transform.localRotation = Quaternion.Euler(m_xRotation, 0f, 0f);
-        playerBody.Rotate(Vector3.up * lookX);
+        transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
+        playerBody.Rotate(Vector3.up * _lookX);
 
     }
 
@@ -41,10 +41,10 @@ public class PlayerLook : MonoBehaviour
         {
             if ((bool)command["data"]["pressed"])
             {
-                lookX = 1.0f;
+                _lookX = 1.0f;
             } else
             {
-                lookX = 0f;
+                _lookX = 0f;
             }
 
 
@@ -54,10 +54,10 @@ public class PlayerLook : MonoBehaviour
         {
             if ((bool)command["data"]["pressed"])
             {
-                lookX = -1.0f;
+                _lookX = -1.0f;
             } else
             {
-                lookX = 0;
+                _lookX = 0;
             }
         }
 
@@ -65,10 +65,10 @@ public class PlayerLook : MonoBehaviour
         {
             if ((bool)command["data"]["pressed"])
             {
-                lookY = 1.0f;
+                _lookY = 1.0f;
             } else
             {
-                lookY = 0;
+                _lookY = 0;
             }
 
 
@@ -78,10 +78,10 @@ public class PlayerLook : MonoBehaviour
         {
             if ((bool)command["data"]["pressed"])
             {
-                lookY = -1.0f;
+                _lookY = -1.0f;
             } else
             {
-                lookY = 0;
+                _lookY = 0;
             }
         }
     }

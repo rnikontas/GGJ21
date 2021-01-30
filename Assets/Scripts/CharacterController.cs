@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour

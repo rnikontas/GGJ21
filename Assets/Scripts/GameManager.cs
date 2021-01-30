@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public bool isReadyToStart;
     public GameObject Player;
 
+    public int playerId;
+
     CharacterController _CharacterController;
     PlayerLook _PlayerLook;
 

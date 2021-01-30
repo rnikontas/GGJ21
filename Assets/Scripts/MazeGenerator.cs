@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Photon.Pun;
 using Unity.Jobs;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Unity.Collections;
 using UnityEngine.AI;
 
 public class MazeGenerator : MonoBehaviour
@@ -106,14 +108,8 @@ public class MazeGenerator : MonoBehaviour
     {
         foreach (var floor in floorList)
         {
-            StartCoroutine(BuildFloorTileNavMesh(floor));
+            floor.GetComponent<NavMeshSurface>().BuildNavMesh();
         }
-    }
-
-    IEnumerator BuildFloorTileNavMesh(GameObject floorTile)
-    {
-        floorTile.GetComponent<NavMeshSurface>().BuildNavMesh();
-        yield return null;
     }
 
     private void GenerateWalls()

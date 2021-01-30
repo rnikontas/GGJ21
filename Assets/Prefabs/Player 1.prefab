@@ -177,7 +177,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupState: {fileID: 251821661}
-  speed: 69
+  turnSpeed: 70
+  moveSpeed: 5
+  health: 100
 --- !u!20 &4167716675838891634
 Camera:
   m_ObjectHideFlags: 0

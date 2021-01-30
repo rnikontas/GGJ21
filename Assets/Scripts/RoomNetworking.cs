@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using NDream.AirConsole;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -37,9 +36,6 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
             canvasControl.indicatorVision.SetActive(false);
             canvasControl.indicatorSound.SetActive(false);
             canvasControl.indicatorMovement.SetActive(false);
-            AirConsole.instance.onMessage -= GameManager.instance.OnMessage;
-            AirConsole.instance.onConnect -= GameManager.instance.OnConnect;
-            AirConsole.instance.onDisconnect -= GameManager.instance.OnDisconnect;
         }
     }
 

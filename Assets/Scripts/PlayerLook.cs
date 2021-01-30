@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 using Photon.Pun;
 using UnityEngine;
 
@@ -36,57 +35,5 @@ public class PlayerLook : MonoBehaviour
         transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * _lookX);
 
-    }
-
-    public void Command(JToken command)
-    {
-
-        if ((string)command["data"]["key"] == "right")
-        {
-            if ((bool)command["data"]["pressed"])
-            {
-                _lookX = 1.0f * lookSensitivity;
-            } else
-            {
-                _lookX = 0f;
-            }
-
-
-        }
-        
-        if ((string)command["data"]["key"] == "left")
-        {
-            if ((bool)command["data"]["pressed"])
-            {
-                _lookX = -1.0f * lookSensitivity;
-            } else
-            {
-                _lookX = 0;
-            }
-        }
-
-        if ((string)command["data"]["key"] == "up")
-        {
-            if ((bool)command["data"]["pressed"])
-            {
-                _lookY = 1.0f * lookSensitivity;
-            } else
-            {
-                _lookY = 0;
-            }
-
-
-        }
-        
-        if ((string)command["data"]["key"] == "down")
-        {
-            if ((bool)command["data"]["pressed"])
-            {
-                _lookY = -1.0f * lookSensitivity;
-            } else
-            {
-                _lookY = 0;
-            }
-        }
     }
 }

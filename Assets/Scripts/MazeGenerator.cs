@@ -42,7 +42,7 @@ public class MazeGenerator : MonoBehaviour
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonView photonView = PhotonView.Get(this);
-            photonView.RPC("GetSeed", RpcTarget.Others, GameManager.instance.seed);
+            photonView.RPC("GetSeed", RpcTarget.Others, GameManager.Instance.seed);
         }
     }
 
@@ -50,7 +50,7 @@ public class MazeGenerator : MonoBehaviour
     void GetSeed(int seed)
     {
         Debug.LogError($"Got seed {seed}");
-        GameManager.instance.seed = seed;
+        GameManager.Instance.seed = seed;
         Generate();
     }
 
@@ -70,14 +70,14 @@ public class MazeGenerator : MonoBehaviour
         GenerateWalls();
         
         if (PhotonNetwork.IsMasterClient)
-            Random.InitState(GameManager.instance.seed);
+            Random.InitState(GameManager.Instance.seed);
         else if (debug)
         {
             Random.InitState(testSeed);
         }
         else
         {
-            Random.InitState(GameManager.instance.seed);
+            Random.InitState(GameManager.Instance.seed);
         }
         var xGridPos = Random.Range(0, xSize);
         var zGridPos = Random.Range(0, zSize);

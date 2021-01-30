@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6155257702156598954}
   - component: {fileID: 6155257702157565034}
   - component: {fileID: 6155257702159590409}
+  - component: {fileID: -3111807521607766606}
   m_Layer: 0
   m_Name: VisionCarrot
   m_TagString: Carrot
@@ -93,3 +94,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.21806782, y: 0.031972237, z: 0.03197223}
   m_Center: {x: -0.0028688759, y: 0.015986107, z: -0.000000092200935}
+--- !u!114 &-3111807521607766606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6155257702159491754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30039739e121d49ee8390a7a6740afdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateSpeed: 1

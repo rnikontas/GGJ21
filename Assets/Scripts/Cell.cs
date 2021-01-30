@@ -19,6 +19,8 @@ public class Cell
 
     public GameObject torch;
 
+    public bool isOccupied;
+
     public Cell()
     {
         visited = false;

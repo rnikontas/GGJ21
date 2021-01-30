@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19dcb00c88e808d41b94f424405ba9a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 0
+  debug: 1
   testSeed: 0
   xSize: 20
   zSize: 20

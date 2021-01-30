@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Photon.Pun;
+using Unity.Jobs;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.AI;

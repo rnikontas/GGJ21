@@ -12,7 +12,7 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] private int xSize;
     [SerializeField] private int zSize;
 
-    [SerializeField] private GameObject wallGO;
+    [SerializeField] private GameObject[] wallGO;
     [SerializeField] private GameObject startGO;
     [SerializeField] private GameObject finishGO;
 
@@ -47,7 +47,7 @@ public class MazeGenerator : MonoBehaviour
 
     private void GenerateWalls()
     {
-        var wallXSize = wallGO.transform.localScale.x;
+        var wallXSize = wallGO[0].transform.GetChild(0).GetComponent<MeshRenderer>().bounds.extents.x * 2;
         var xPos = -0.5f * (xSize - 1) * wallXSize;
         var zPos = 0.5f * (zSize - 1) * wallXSize;
         var distFromCellCenter = wallXSize * 0.5f;
@@ -56,19 +56,20 @@ public class MazeGenerator : MonoBehaviour
         {
             for (int j = 0; j < xSize; j++)
             {
+                var wallToGenerate = wallGO[Random.Range(0, wallGO.Length)];
                 var cell = new Cell();
                 cell.xWorldCoordinate = xPos;
                 cell.zWorldCoordinate = zPos;
                 cell.xGridCoordinate = j;
                 cell.zGridCoordinate = i;
                 
-                cell.rightWall = Instantiate(wallGO, new Vector3(xPos + distFromCellCenter, 0, zPos),
+                cell.rightWall = Instantiate(wallToGenerate, new Vector3(xPos + distFromCellCenter, 0, zPos),
                     Quaternion.identity * Quaternion.Euler(0, 90, 0));
-                cell.bottomWall = Instantiate(wallGO, new Vector3(xPos, 0, zPos - distFromCellCenter),
+                cell.bottomWall = Instantiate(wallToGenerate, new Vector3(xPos, 0, zPos - distFromCellCenter),
                     Quaternion.identity);
                 if (j == 0)
                 {
-                    cell.leftWall = Instantiate(wallGO, new Vector3(xPos - distFromCellCenter, 0, zPos),
+                    cell.leftWall = Instantiate(wallToGenerate, new Vector3(xPos - distFromCellCenter, 0, zPos),
                         Quaternion.identity * Quaternion.Euler(0, 90, 0));
                 }
                 else
@@ -78,7 +79,7 @@ public class MazeGenerator : MonoBehaviour
 
                 if (i == 0)
                 {
-                    cell.topWall = Instantiate(wallGO, new Vector3(xPos, 0, zPos + distFromCellCenter),
+                    cell.topWall = Instantiate(wallToGenerate, new Vector3(xPos, 0, zPos + distFromCellCenter),
                         Quaternion.identity);
                 }
                 else

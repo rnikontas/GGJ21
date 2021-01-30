@@ -7,6 +7,12 @@ public class CharacterController : MonoBehaviour
 {
     public UnityEngine.CharacterController controller;
     public float speed;
+    public PickupState pickupState;
+
+    void Awake()
+    {
+        pickupState = gameObject.GetComponent<PickupState>();
+    }
 
     void Start()
     {
@@ -30,6 +36,8 @@ public class CharacterController : MonoBehaviour
     
     void Update()
     {
+        var speed = GetMoveSpeed();
+
         if (!PhotonNetwork.IsMasterClient)
             return;
 
@@ -38,6 +46,16 @@ public class CharacterController : MonoBehaviour
 
         var movementDirection = transform.right * moveX + transform.forward * moveZ;
         controller.Move(movementDirection * speed * Time.deltaTime);
+    }
+
+    public float GetMoveSpeed()
+    {
+        if (pickupState == null)
+            return speed;
+
+        var speedBoost = pickupState.getTimedPowerUpEffect(TimedPowerupEffect.PowerUpName.Speed);
+        float speedBoostValue = speedBoost != null ? speedBoost.strength : 0f;
+        return speed + speedBoostValue;
     }
 
 }

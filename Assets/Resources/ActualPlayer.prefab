@@ -187,6 +187,8 @@ GameObject:
   - component: {fileID: 2099356263524047260}
   - component: {fileID: -2644339792643735570}
   - component: {fileID: -475826889143776271}
+  - component: {fileID: 1014530631010015015}
+  - component: {fileID: -3895135486557051569}
   m_Layer: 0
   m_Name: ActualPlayer
   m_TagString: Player
@@ -302,6 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 2099356263524047261}
   speed: 3
+  pickupState: {fileID: 0}
 --- !u!114 &-2644339792643735570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,3 +344,33 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &1014530631010015015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099356263524047263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2bf1e43d7f014468388b58c315e093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  characterController: {fileID: 0}
+--- !u!114 &-3895135486557051569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099356263524047263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d98a0c13a2b665d46a1a15b1ed0de9c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progression: 0
+  progressionThreshold: 0
+  cheatPoints: 0
+  cheatPointThreshold: 0

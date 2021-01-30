@@ -50,14 +50,17 @@ public class Player : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other) {
-        switch (other.gameObject.tag) { 
+        var triggerObject = other.gameObject;
+        switch (triggerObject.tag) { 
               
         case "Cheese": 
             pickupState.addTimedPowerUpEffect(PowerUpName.Speed, new TimedPowerupEffect());
+            triggerObject.SetActive(false);
             break; 
   
         case "Carrot": 
             pickupState.addTimedPowerUpEffect(PowerUpName.Vision, new TimedPowerupEffect());
+            triggerObject.SetActive(false);
             break; 
   
         default:

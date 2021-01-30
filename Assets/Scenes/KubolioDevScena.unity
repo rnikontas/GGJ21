@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -167,8 +167,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debug: 1
   testSeed: 1
-  xSize: 15
-  zSize: 15
+  xSize: 5
+  zSize: 5
   wallGO:
   - {fileID: 2335240092310910224, guid: 371d97e7b556a2e4ca89d3076712eac9, type: 3}
   floorGO: {fileID: 7715843565390198559, guid: d31bf6215709c7d49a0798f06602f1ea, type: 3}
@@ -185,7 +185,10 @@ MonoBehaviour:
   player: {fileID: 4167716675838891645, guid: 7be9c84489f4245429d6a727a18ca112, type: 3}
   networkedPlayer: {fileID: 2099356263524047263, guid: 7743a9e18870fb84c872d26250ccced7,
     type: 3}
-  extraWallsToRemove: 10
+  extraWallsToRemove: 0
+  biblico: {fileID: 2545979800504372219, guid: b0abf2a46b5104b3481b9756d300a86c, type: 3}
+  stompus: {fileID: 7885017077903644834, guid: 24944cfd61d744cd3855c1091fb981bb, type: 3}
+  stratus: {fileID: 2470151999710223245, guid: 94a176ae0cdeb4d6988a3fcd98fa0f53, type: 3}
 --- !u!114 &838985783
 MonoBehaviour:
   m_ObjectHideFlags: 0

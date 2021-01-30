@@ -45,6 +45,10 @@ public class MazeGenerator : MonoBehaviour
         
     private List<GameObject> floorList = new List<GameObject>();
 
+    [SerializeField] private GameObject biblico;
+    [SerializeField] private GameObject stompus;
+    [SerializeField] private GameObject stratus;
+
     void Awake()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -91,6 +95,7 @@ public class MazeGenerator : MonoBehaviour
         var zGridPos = Random.Range(0, zSize);
         GenerateGap(xGridPos, zGridPos);
         Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
+        CheckAndSetOccupied(cells[xGridPos, zGridPos]);
         var playerPosition = new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate);
         if (PhotonNetwork.IsMasterClient)
         {
@@ -101,9 +106,26 @@ public class MazeGenerator : MonoBehaviour
             Instantiate(player, playerPosition, Quaternion.identity);
         }
         Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 2, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
+        CheckAndSetOccupied(cells[endXGridPos, endZGridPos]);
         RemoveExtraWalls();
         SpawnPowerUps();
-       // BuildingNavMesh();
+        BuildingNavMesh();
+        DropEnemies();
+    }
+
+    private void DropEnemies()
+    {
+        var biblicoxGridPos = Random.Range(0, xSize);
+        var biblicozGridPos = Random.Range(0, zSize);
+        Instantiate(biblico, new Vector3(cells[biblicoxGridPos, biblicozGridPos].xWorldCoordinate, 2, cells[biblicoxGridPos, biblicozGridPos].zWorldCoordinate), Quaternion.identity);
+
+        var stompusxGridPos = Random.Range(0, xSize);
+        var stompuszGridPos = Random.Range(0, zSize);
+        Instantiate(stompus, new Vector3(cells[stompusxGridPos, stompuszGridPos].xWorldCoordinate, 2, cells[stompusxGridPos, stompuszGridPos].zWorldCoordinate), Quaternion.identity);
+
+        var stratusxGridPos = Random.Range(0, xSize);
+        var stratuszGridPos = Random.Range(0, zSize);
+        Instantiate(stratus, new Vector3(cells[stratusxGridPos, stratuszGridPos].xWorldCoordinate, 2, cells[stratusxGridPos, stratuszGridPos].zWorldCoordinate), Quaternion.identity);
     }
 
     private void BuildingNavMesh()
@@ -207,12 +229,16 @@ public class MazeGenerator : MonoBehaviour
         var powerUpsSpawned = 0;
         while (powerUpsSpawned < powerUpsToSpawn)
         {
-            powerUpsSpawned++;
             var powerUpToSpawn = powerUps[Random.Range(0, powerUps.Length)];
             var powerUpGridPosX = Random.Range(0, xSize);
             var powerUpGridPosZ = Random.Range(0, zSize);
-            var powerUpWorldPos = new Vector3(cells[powerUpGridPosX, powerUpGridPosZ].xWorldCoordinate, 2, cells[powerUpGridPosX, powerUpGridPosZ].zWorldCoordinate);
-            Instantiate(powerUpToSpawn, powerUpWorldPos, Quaternion.identity);
+            if (!CheckAndSetOccupied(cells[powerUpGridPosX, powerUpGridPosZ]))
+            {
+                var powerUpWorldPos = new Vector3(cells[powerUpGridPosX, powerUpGridPosZ].xWorldCoordinate, 2,
+                    cells[powerUpGridPosX, powerUpGridPosZ].zWorldCoordinate);
+                Instantiate(powerUpToSpawn, powerUpWorldPos, Quaternion.identity);
+                powerUpsSpawned++;
+            }
         }
     }
 
@@ -358,5 +384,16 @@ public class MazeGenerator : MonoBehaviour
         }
 
         return neighbours;
+    }
+
+    private bool CheckAndSetOccupied(Cell cell)
+    {
+        if (cell.isOccupied)
+            return true;
+        else
+        {
+            cell.isOccupied = true;
+            return false;
+        }
     }
 }

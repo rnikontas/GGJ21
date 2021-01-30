@@ -50,14 +50,16 @@ public class PickupState : MonoBehaviour
     }
 
     private void updatePowerUpState(float timePassed) {
+        var newDictionary = new Dictionary<PowerUpName, TimedPowerupEffect>();
+        
         foreach (var powertype in activePowerupEffects.Keys)
         {
             var powerTimeLeft = activePowerupEffects[powertype].timeLeft - timePassed;
-            if (powerTimeLeft <= 0)
+            // If still time left - keep it around :)
+            if (powerTimeLeft > 0)
             {
-                activePowerupEffects.Remove(powertype);
-            } else {
                 activePowerupEffects[powertype].timeLeft = powerTimeLeft;
+                newDictionary.Add(powertype, activePowerupEffects[powertype]);
             }
         }
     }

@@ -18,9 +18,10 @@ public class PickupState : MonoBehaviour
     void Start()
     {
         Debug.Log("PickupState loaded");
-        addTimedPowerUpEffect(PowerUpName.Speed, new TimedPowerupEffect(5, 1));
-        addTimedPowerUpEffect(PowerUpName.Vision, new TimedPowerupEffect(3, 2));
-        addTimedPowerUpEffect(PowerUpName.Speed, new TimedPowerupEffect(8, 3)); // overwrites previous speed buff
+        // Testing
+        // addTimedPowerUpEffect(PowerUpName.Speed, new TimedPowerupEffect(5, 1));
+        // addTimedPowerUpEffect(PowerUpName.Vision, new TimedPowerupEffect(3, 2));
+        // addTimedPowerUpEffect(PowerUpName.Speed, new TimedPowerupEffect(8, 3)); // overwrites previous speed buff
     }
 
     public void addTimedPowerUpEffect(PowerUpName name, TimedPowerupEffect timedPowerupEffect) {

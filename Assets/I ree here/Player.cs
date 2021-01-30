@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static TimedPowerupEffect;
 
 public class Player : MonoBehaviour
 {
+    public PickupState pickupState;
+
     public float speed = 9;
     // Start is called before the first frame update
     void Start()
@@ -30,5 +33,24 @@ public class Player : MonoBehaviour
         {
             transform.Rotate(Vector3.up * speed * Time.deltaTime);
         }
+    }
+
+    void OnTriggerEnter(Collider other) {
+        var triggerObject = other.gameObject;
+        switch (triggerObject.tag) { 
+              
+        case "Cheese": 
+            pickupState.addTimedPowerUpEffect(PowerUpName.Speed, new TimedPowerupEffect());
+            triggerObject.SetActive(false);
+            break; 
+  
+        case "Carrot": 
+            pickupState.addTimedPowerUpEffect(PowerUpName.Vision, new TimedPowerupEffect());
+            triggerObject.SetActive(false);
+            break; 
+  
+        default:
+            break; 
+        } 
     }
 }

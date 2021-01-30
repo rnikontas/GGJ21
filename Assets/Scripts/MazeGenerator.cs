@@ -2,13 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Photon.Pun;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class MazeGenerator : MonoBehaviour
 {
-    public int seed;
-    
     [SerializeField] private int xSize;
     [SerializeField] private int zSize;
 
@@ -28,12 +27,36 @@ public class MazeGenerator : MonoBehaviour
     
     [SerializeField] private GameObject player;
 
+    void Awake()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("GetSeed", RpcTarget.Others, GameManager.instance.seed);
+        }
+    }
+
+    [PunRPC]
+    void GetSeed(int seed)
+    {
+        Debug.LogError($"Got seed {seed}");
+        GameManager.instance.seed = seed;
+        Generate();
+    }
+
     void Start()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            Generate();
+
+    }
+
+    private void Generate()
     {
         cells = new Cell[xSize, zSize];
         GenerateWalls();
         
-        Random.InitState(seed);
+        Random.InitState(GameManager.instance.seed);
         var xGridPos = Random.Range(0, xSize);
         var zGridPos = Random.Range(0, zSize);
 

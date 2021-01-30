@@ -67,11 +67,11 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Photon.Realtime.Player leftPlayer)
     {
         Debug.LogError($"Left: {leftPlayer.NickName}");
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
-            roomCanvasUI.indicatorVision.SetActive(true);
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            roomCanvasUI.indicatorVision.SetActive(false);
 
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 3)
-            roomCanvasUI.indicatorSound.SetActive(true);
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+            roomCanvasUI.indicatorSound.SetActive(false);
 
         if (PhotonNetwork.IsMasterClient)
             GameManager.Instance.CheckIfReadyToStart();

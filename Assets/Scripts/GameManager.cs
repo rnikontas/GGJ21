@@ -49,6 +49,10 @@ public class GameManager : MonoBehaviour
         {
             isReadyToStart = true;
         }
+        else
+        {
+            isReadyToStart = false;
+        }
     }
 
 

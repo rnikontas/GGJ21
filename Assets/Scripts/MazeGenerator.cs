@@ -224,15 +224,15 @@ public class MazeGenerator : MonoBehaviour
         }
         else if (cell.leftWall != null)
         {
-            cell.torch = Instantiate(torch, new Vector3(cell.xWorldCoordinate - 0.775f, 2, cell.zWorldCoordinate), Quaternion.identity);
+            cell.torch = Instantiate(torch, new Vector3(cell.xWorldCoordinate - 0.775f, 2, cell.zWorldCoordinate), Quaternion.Euler(0, 0,-20));
         }
         else if (cell.topWall != null)
         {
-            cell.torch = Instantiate(torch, new Vector3(cell.xWorldCoordinate, 2, cell.zWorldCoordinate + 0.775f), Quaternion.identity);
+            cell.torch = Instantiate(torch, new Vector3(cell.xWorldCoordinate, 2, cell.zWorldCoordinate + 0.775f), Quaternion.Euler(-20, 0,0));
         }
         else if (cell.rightWall != null)
         {
-            cell.torch = Instantiate(torch, new Vector3(cell.xWorldCoordinate + 0.775f, 2, cell.zWorldCoordinate), Quaternion.identity);
+            cell.torch = Instantiate(torch, new Vector3(cell.xWorldCoordinate + 0.775f, 2, cell.zWorldCoordinate), Quaternion.Euler(0, 0,20));
         }
     }
 

@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 1
-  testSeed: 15
+  testSeed: 1
   xSize: 15
   zSize: 15
   wallGO:

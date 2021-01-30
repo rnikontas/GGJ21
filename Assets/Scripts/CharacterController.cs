@@ -6,9 +6,7 @@ using UnityEngine;
 public class CharacterController : MonoBehaviour
 {
     public UnityEngine.CharacterController controller;
-    public float speed = 12f;
-    public int moveX;
-    public int moveZ;
+    public float speed;
 
     void Start()
     {
@@ -32,6 +30,12 @@ public class CharacterController : MonoBehaviour
     
     void Update()
     {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
+        var moveX = Input.GetAxis("Horizontal");
+        var moveZ = Input.GetAxis("Vertical");
+
         var movementDirection = transform.right * moveX + transform.forward * moveZ;
         controller.Move(movementDirection * speed * Time.deltaTime);
     }

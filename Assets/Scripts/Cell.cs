@@ -17,6 +17,8 @@ public class Cell
     public float xWorldCoordinate;
     public float zWorldCoordinate;
 
+    public GameObject torch;
+
     public Cell()
     {
         visited = false;

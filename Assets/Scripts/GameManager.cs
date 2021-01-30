@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManager Instance;
     public int seed;
     public bool isReadyToStart;
     public GameObject Player;
@@ -17,8 +17,8 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
     }
 
     void Start()
@@ -41,20 +41,27 @@ public class GameManager : MonoBehaviour
 
     public void CheckIfReadyToStart()
     {
+        if (!PhotonNetwork.IsConnectedAndReady)
+            return;
+
         if (PhotonNetwork.IsMasterClient &&
-            PhotonNetwork.CurrentRoom.PlayerCount == 2 )
+            PhotonNetwork.CurrentRoom.PlayerCount == 3 )
         {
             isReadyToStart = true;
+        }
+        else
+        {
+            isReadyToStart = false;
         }
     }
 
 
     public void StartGame()
     {
-        seed = Random.Range(0, 100);
+        seed = Random.Range(0, 1000);
         Debug.Log($"Seed: {seed}");
 
         if (PhotonNetwork.IsMasterClient) 
-            PhotonNetwork.LoadLevel("KubolioDevScena");
+            PhotonNetwork.LoadLevel("Level");
     }
 }

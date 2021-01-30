@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 using Photon.Pun;
 using UnityEngine;
 
@@ -37,55 +36,4 @@ public class CharacterController : MonoBehaviour
         controller.Move(movementDirection * speed * Time.deltaTime);
     }
 
-
-    public void Command(JToken command)
-    {
-        if ((string)command["data"]["key"] == "right")
-        {
-            if ((bool)command["data"]["pressed"])
-            {
-                moveX = 1;
-            } else
-            {
-                moveX = 0;
-            }
-
-
-        }
-        
-        if ((string)command["data"]["key"] == "left")
-        {
-            if ((bool)command["data"]["pressed"])
-            {
-                moveX = -1;
-            } else
-            {
-                moveX = 0;
-            }
-        }
-
-        if ((string)command["data"]["key"] == "up")
-        {
-            if ((bool)command["data"]["pressed"])
-            {
-                moveZ = 1;
-            } else
-            {
-                moveZ = 0;
-            }
-
-
-        }
-        
-        if ((string)command["data"]["key"] == "down")
-        {
-            if ((bool)command["data"]["pressed"])
-            {
-                moveZ = -1;
-            } else
-            {
-                moveZ = 0;
-            }
-        }
-    }
 }

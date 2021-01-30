@@ -15,6 +15,7 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] private int zSize;
 
     [SerializeField] private GameObject[] wallGO;
+    [SerializeField] private GameObject floorGO;
     [SerializeField] private GameObject startGO;
     [SerializeField] private GameObject finishGO;
 
@@ -110,7 +111,8 @@ public class MazeGenerator : MonoBehaviour
                 cell.zWorldCoordinate = zPos;
                 cell.xGridCoordinate = j;
                 cell.zGridCoordinate = i;
-                
+
+                Instantiate(floorGO, new Vector3(xPos, 0.2f, zPos), Quaternion.identity);
                 cell.rightWall = Instantiate(wallToGenerate, new Vector3(xPos + distFromCellCenter, 0, zPos),
                     Quaternion.identity * Quaternion.Euler(0, 90, 0));
                 cell.bottomWall = Instantiate(wallToGenerate, new Vector3(xPos, 0, zPos - distFromCellCenter),

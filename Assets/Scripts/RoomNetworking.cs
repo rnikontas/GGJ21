@@ -30,11 +30,12 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        var players = PhotonNetwork.CurrentRoom.Players;
-        string playerList = "";
-        foreach (var player in players)
+        if (!PhotonNetwork.IsMasterClient)
         {
-            playerList += $"{player.Value.NickName}\n";
+            var canvasControl = roomCanvas.GetComponent<RoomCanvasUI>();
+            canvasControl.indicatorVision.SetActive(false);
+            canvasControl.indicatorSound.SetActive(false);
+            canvasControl.indicatorMovement.SetActive(false);
         }
     }
 
@@ -45,6 +46,8 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
         players += $"{newPlayer.NickName} \n";
         Debug.Log($"{newPlayer.NickName}");
         canvasControl.playerList = players;
+        canvasControl.indicatorSound.SetActive(true);
+        GameManager.instance.CheckIfReadyToStart();
     }
 
     public void CreateRoom()
@@ -63,9 +66,7 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
             roomCanvas.gameObject.SetActive(true);
             var roomCanvasUi = roomCanvas.GetComponent<RoomCanvasUI>();
             roomCanvasUi.roomCode = roomCode;
-            roomCanvasUi.noOfPlayers++;
-            //roomCanvasUi.playerMoveUiIndicator.SetActive(true);
-            roomCanvasUi.UpdatePlayers();
+            roomCanvasUi.indicatorVision.SetActive(true);
         }
         else
         {
@@ -84,7 +85,9 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
         {
             lobbyCanvas.gameObject.SetActive(false);
             roomCanvas.gameObject.SetActive(true);
-            roomCanvas.GetComponent<RoomCanvasUI>().roomCode = _inputtedRoomCode;
+            var canvasUI = roomCanvas.GetComponent<RoomCanvasUI>();
+            canvasUI.roomCode = _inputtedRoomCode;
+            canvasUI.waitingGameObject.SetActive(true);
         }
         else
         {

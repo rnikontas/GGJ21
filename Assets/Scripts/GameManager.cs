@@ -39,13 +39,16 @@ public class GameManager : MonoBehaviour
             _CharacterController = FindObjectOfType<CharacterController>();
             _PlayerLook = FindObjectOfType<PlayerLook>();
         }
+
+        CheckIfReadyToStart();
             
     }
 
-    void CheckIfReadyToStart()
+    public void CheckIfReadyToStart()
     {
         if (PhotonNetwork.IsMasterClient &&
-            PhotonNetwork.CurrentRoom.PlayerCount == 3)
+            PhotonNetwork.CurrentRoom.PlayerCount == 3 &&
+            AirConsole.instance.GetControllerDeviceIds().Count == 1)
         {
             isReadyToStart = true;
         }
@@ -53,8 +56,8 @@ public class GameManager : MonoBehaviour
 
     void OnConnect(int deviceId)
     {
-        if (AirConsole.instance.GetControllerDeviceIds().Count == 1)
-            StartGame();
+        CheckIfReadyToStart();
+        FindObjectOfType<RoomCanvasUI>().indicatorMovement.SetActive(true);
     }
 
     void OnDisconnect(int deviceId)

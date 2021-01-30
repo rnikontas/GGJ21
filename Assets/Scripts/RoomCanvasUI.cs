@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,32 +10,33 @@ public class RoomCanvasUI : MonoBehaviour
     public string playerList;
 
     public Text roomCodeTextField;
-    public Text roomPlayerListField;
     public Button startGameButton;
 
     public int noOfPlayers;
-    public List<GameObject> playerUiIndicators;
+    public GameObject indicatorMovement;
+    public GameObject indicatorVision;
+    public GameObject indicatorSound;
+
+    public GameObject waitingGameObject;
 
     void Start()
     {
         gameObject.SetActive(false);
-        for (var i = 0; i < playerUiIndicators.Count; i++)
-        {
-            playerUiIndicators[i].SetActive(false);
-        }
+        indicatorMovement.SetActive(false);
+        indicatorVision.SetActive(false);
+        indicatorSound.SetActive(false);
+        waitingGameObject.SetActive(false);
     }
 
     void Update()
     {
         roomCodeTextField.text = roomCode;
-        roomPlayerListField.text = playerList;
 
-        if (GameManager.instance.isReadyToStart)
+        if (GameManager.instance.isReadyToStart &&
+            PhotonNetwork.IsMasterClient)
+        {
             startGameButton.gameObject.SetActive(true);
-    }
-
-    public void UpdatePlayers()
-    {
-
+        }
+            
     }
 }

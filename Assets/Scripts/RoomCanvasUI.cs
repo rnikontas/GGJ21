@@ -32,6 +32,7 @@ public class RoomCanvasUI : MonoBehaviour
     {
         roomCodeTextField.text = roomCode;
 
+        Debug.Log($"IsReady {GameManager.instance.isReadyToStart}");
         if (GameManager.instance.isReadyToStart &&
             PhotonNetwork.IsMasterClient)
         {

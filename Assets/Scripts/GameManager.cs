@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     public void CheckIfReadyToStart()
     {
         if (PhotonNetwork.IsMasterClient &&
-            PhotonNetwork.CurrentRoom.PlayerCount == 3 &&
+            PhotonNetwork.CurrentRoom.PlayerCount == 2 &&
             AirConsole.instance.GetControllerDeviceIds().Count == 1)
         {
             isReadyToStart = true;
@@ -86,8 +86,10 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        var seed = Random.Range(0, 100);
+        Debug.Log($"Seed: {seed}");
         AirConsole.instance.SetActivePlayers(1);
         if (PhotonNetwork.IsMasterClient) 
-            PhotonNetwork.LoadLevel("testLevel");
+            PhotonNetwork.LoadLevel("KubolioDevScena");
     }
 }

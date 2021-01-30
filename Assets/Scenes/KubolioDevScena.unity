@@ -176,7 +176,31 @@ MonoBehaviour:
   powerUps:
   - {fileID: 385719690376424812, guid: d312d606cd08e7c4694f663610f2c304, type: 3}
   - {fileID: 6155257702159491754, guid: 42d705487871a524e85bb59a22bc2064, type: 3}
-  player: {fileID: 4167716675838891645, guid: 7be9c84489f4245429d6a727a18ca112, type: 3}
+  player: {fileID: 4167716675838891645, guid: a905b87cd8d0637419a6f0cd1420c2cd, type: 3}
+  networkedPlayer: {fileID: 2099356263524047263, guid: 7743a9e18870fb84c872d26250ccced7,
+    type: 3}
+--- !u!114 &838985783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838985780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1430777344
 GameObject:
   m_ObjectHideFlags: 0

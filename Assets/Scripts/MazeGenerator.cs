@@ -67,8 +67,14 @@ public class MazeGenerator : MonoBehaviour
         
         if (PhotonNetwork.IsMasterClient)
             Random.InitState(GameManager.instance.seed);
-        else
+        else if (debug)
+        {
             Random.InitState(testSeed);
+        }
+        else
+        {
+            Random.InitState(GameManager.instance.seed);
+        }
         var xGridPos = Random.Range(0, xSize);
         var zGridPos = Random.Range(0, zSize);
 

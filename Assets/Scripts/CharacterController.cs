@@ -23,6 +23,11 @@ public class CharacterController : MonoBehaviour
     [PunRPC]
     void UpdatePositionAndRotation(Vector3 position, Quaternion rotation)
     {
+        Debug.LogError($"Position from server: {position.x} {position.y} {position.z}");
+        Debug.LogError($"Position from server: {rotation.x} {rotation.y} {rotation.z} {rotation.w}");
+
+        Debug.Log($"Position here: {gameObject.transform.position.x} {gameObject.transform.position.y} {gameObject.transform.position.z}");
+        Debug.Log($"Rotation here: {gameObject.transform.rotation.x} {gameObject.transform.rotation.y} {gameObject.transform.rotation.z} {gameObject.transform.rotation.w}");
         gameObject.transform.SetPositionAndRotation(position, rotation);
     }
     

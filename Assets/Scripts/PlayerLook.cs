@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
@@ -16,7 +17,10 @@ public class PlayerLook : MonoBehaviour
 
     void Start()
     {
-        
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GetComponent<AudioListener>().enabled = false;
+        }
     }
 
 

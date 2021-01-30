@@ -7,54 +7,52 @@ using static TimedPowerupEffect;
 
 public class Player : MonoBehaviour
 {
+    public bool debug;
+
     public PickupState pickupState;
-
+    #region DEBUG_ONLY
     public float turnSpeed;
-
     public float moveSpeed;
+    #endregion
 
     public int health = 100;
+    public CharacterController characterController;
 
+    void Awake()
+    {
+        characterController = gameObject.GetComponent<CharacterController>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
 
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
-
-        if (Input.GetKey(KeyCode.W))
+        if (debug)
         {
-            transform.Translate(0, 0, getMoveSpeed() * Time.deltaTime);
+            if (Input.GetKey(KeyCode.W))
+            {
+                transform.Translate(0, 0, getMoveSpeed() * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                transform.Translate(0, 0, -getMoveSpeed() * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                transform.Rotate(-Vector3.up * turnSpeed * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                transform.Rotate(Vector3.up * turnSpeed * Time.deltaTime);
+            }
         }
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(0, 0, -getMoveSpeed() * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Rotate(-Vector3.up * turnSpeed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Rotate(Vector3.up * turnSpeed * Time.deltaTime);
-        }
-
     }
 
-
-    [PunRPC]
-    void UpdatePositionAndRotation(Transform transform)
-    {
-        gameObject.transform.position = transform.position;
-    }
 
     public float getMoveSpeed() {
         var speedBoost = pickupState.getTimedPowerUpEffect(PowerUpName.Speed);

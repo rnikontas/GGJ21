@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class MazeGenerator : MonoBehaviour
 {
+    [SerializeField] private int testSeed;
     [SerializeField] private int xSize;
     [SerializeField] private int zSize;
 
@@ -48,6 +49,10 @@ public class MazeGenerator : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient)
             Generate();
+        else
+        {
+            Generate();
+        }
 
     }
 
@@ -56,7 +61,10 @@ public class MazeGenerator : MonoBehaviour
         cells = new Cell[xSize, zSize];
         GenerateWalls();
         
-        Random.InitState(GameManager.instance.seed);
+        if (PhotonNetwork.IsMasterClient)
+            Random.InitState(GameManager.instance.seed);
+        else
+            Random.InitState(testSeed);
         var xGridPos = Random.Range(0, xSize);
         var zGridPos = Random.Range(0, zSize);
 

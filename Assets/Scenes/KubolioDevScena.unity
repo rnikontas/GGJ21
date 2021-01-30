@@ -178,6 +178,7 @@ MonoBehaviour:
   powerUps:
   - {fileID: 385719690376424812, guid: d312d606cd08e7c4694f663610f2c304, type: 3}
   - {fileID: 6155257702159491754, guid: 42d705487871a524e85bb59a22bc2064, type: 3}
+  - {fileID: 5973148500786204717, guid: 462ee4bf9aefa86489d396045a9aba90, type: 3}
   player: {fileID: 4167716675838891645, guid: 7be9c84489f4245429d6a727a18ca112, type: 3}
   networkedPlayer: {fileID: 2099356263524047263, guid: 7743a9e18870fb84c872d26250ccced7,
     type: 3}

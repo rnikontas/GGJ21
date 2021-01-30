@@ -9,9 +9,9 @@ public class Player : MonoBehaviour
 {
     public PickupState pickupState;
 
-    public float turnSpeed = 10;
+    public float turnSpeed = 25f;
 
-    public float moveSpeed = 10;
+    public float moveSpeed = 10f;
 
     public int health = 100;
 

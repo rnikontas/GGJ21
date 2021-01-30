@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2099356263203188433}
   - component: {fileID: 1272908848766820495}
   - component: {fileID: 4993859185174152904}
+  - component: {fileID: 6505727114394866697}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: MainCamera
@@ -98,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5779cbad75cdbaf45945c38a4a581b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookSensitivity: 1.75
+  lookSensitivity: 100
   playerBody: {fileID: 2099356263524047257}
 --- !u!114 &1272908848766820495
 MonoBehaviour:
@@ -139,6 +140,37 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &6505727114394866697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099356263203188437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &2099356263524047263
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,8 +302,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 2099356263524047261}
   speed: 3
-  moveX: 0
-  moveZ: 0
 --- !u!114 &-2644339792643735570
 MonoBehaviour:
   m_ObjectHideFlags: 0

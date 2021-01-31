@@ -6,16 +6,34 @@ public class EnemyHit : MonoBehaviour
 {
     public int hitDmg;
     public float bounceForce;
+    float damageTimer = 0.5f;
+    float timer = 0f;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collider.gameObject.tag == "Player")
         {
-            //collision.gameObject.DoAHurt(hitDmg);
-
-            Vector3 dir = collision.contacts[0].point - transform.position;
-            dir = -dir.normalized;
-            GetComponent<Rigidbody>().AddForce(dir * bounceForce);
+            collider.gameObject.GetComponent<Player>().reduceHealth(hitDmg);
         }
     }
+
+    void OnTriggerStay(Collider collider)
+    {
+        timer += Time.deltaTime;
+        if (collider.gameObject.tag == "Player")
+        {
+            if (timer >= damageTimer)
+            {
+                collider.gameObject.GetComponent<Player>().reduceHealth(hitDmg);
+                timer = 0f;
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider collider)
+    {
+        timer = 0f;
+    }
+
+
 }

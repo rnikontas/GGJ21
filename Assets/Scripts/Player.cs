@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public int health = 100;
     public CharacterController characterController;
     public GameObject hitEnemyScream;
+    public GameObject hitEnemy;
 
     void Awake()
     {
@@ -76,6 +77,12 @@ public class Player : MonoBehaviour
 
     public int reduceHealth(int amount) {
         health -= amount;
+        var audioSource = hitEnemy.GetComponent<AudioSource>();
+        if (!audioSource.isPlaying)
+        {
+            audioSource.pitch = Random.Range(0.90f, 1.1f);
+            audioSource.Play();
+        }
         if (health < 0){
             health = 0;
         }

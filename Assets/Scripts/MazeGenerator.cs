@@ -43,12 +43,12 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] GameObject networkedPlayer;
 
     [SerializeField] private int extraWallsToRemove;
-        
-    private List<GameObject> floorList = new List<GameObject>();
 
     [SerializeField] private GameObject biblico;
     [SerializeField] private GameObject stompus;
     [SerializeField] private GameObject stratus;
+
+    [SerializeField] private GameObject navMeshSurface;
 
     void Awake()
     {
@@ -110,8 +110,8 @@ public class MazeGenerator : MonoBehaviour
         CheckAndSetOccupied(cells[endXGridPos, endZGridPos]);
         RemoveExtraWalls();
         SpawnPowerUps();
-        //BuildingNavMesh();
-        //DropEnemies();
+        BuildingNavMesh();
+        DropEnemies();
     }
 
     private void DropEnemies()
@@ -131,9 +131,9 @@ public class MazeGenerator : MonoBehaviour
 
     private void BuildingNavMesh()
     {
-        foreach (var floor in floorList)
+        foreach (var navMeshSurface in NavMeshSurface.activeSurfaces)
         {
-            floor.GetComponent<NavMeshSurface>().BuildNavMesh();
+            navMeshSurface.BuildNavMesh();
         }
     }
 
@@ -156,16 +156,15 @@ public class MazeGenerator : MonoBehaviour
                 cell.xGridCoordinate = j;
                 cell.zGridCoordinate = i;
 
-                var tempFloor = Instantiate(floorGO, new Vector3(xPos, 0.2f, zPos), Quaternion.identity);
-                floorList.Add(tempFloor);
+                Instantiate(floorGO, new Vector3(xPos, 0.2f, zPos), Quaternion.identity, navMeshSurface.transform);
                 cell.rightWall = Instantiate(wallToGenerate, new Vector3(xPos + distFromCellCenter, 0, zPos),
-                    Quaternion.identity * Quaternion.Euler(0, 90, 0));
+                    Quaternion.identity * Quaternion.Euler(0, 90, 0), navMeshSurface.transform);
                 cell.bottomWall = Instantiate(wallToGenerate, new Vector3(xPos, 0, zPos - distFromCellCenter),
-                    Quaternion.identity);
+                    Quaternion.identity, navMeshSurface.transform);
                 if (j == 0)
                 {
                     cell.leftWall = Instantiate(wallToGenerate, new Vector3(xPos - distFromCellCenter, 0, zPos),
-                        Quaternion.identity * Quaternion.Euler(0, 90, 0));
+                        Quaternion.identity * Quaternion.Euler(0, 90, 0), navMeshSurface.transform);
                 }
                 else
                 {
@@ -175,7 +174,7 @@ public class MazeGenerator : MonoBehaviour
                 if (i == 0)
                 {
                     cell.topWall = Instantiate(wallToGenerate, new Vector3(xPos, 0, zPos + distFromCellCenter),
-                        Quaternion.identity);
+                        Quaternion.identity, navMeshSurface.transform);
                 }
                 else
                 {

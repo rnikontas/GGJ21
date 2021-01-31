@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 public class RoomNetworking : MonoBehaviourPunCallbacks
 {
@@ -125,6 +126,7 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
 
             roomCanvasUI.roomCode = roomCode;
             roomCanvasUI.indicatorMovement.SetActive(true);
+            roomCanvasUI.indicatorMovement.GetComponentInChildren<Text>();
             GameManager.Instance.playerId = 0;
         }
         else

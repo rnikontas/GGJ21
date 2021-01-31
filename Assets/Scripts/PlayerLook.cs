@@ -27,7 +27,7 @@ public class PlayerLook : MonoBehaviour
         if (!PhotonNetwork.IsMasterClient || PauseController.isPaused)
             return;
 
-        var lookX = Input.GetAxis("Horizontal") * lookSensitivity * Time.deltaTime;
+        var lookX = Input.GetAxis("Horizontal") * lookSensitivity * 2f * Time.deltaTime;
         //var lookY = Input.GetAxis("Mouse Y") * lookSensitivity * Time.deltaTime;
 
         //_xRotation -= lookY;

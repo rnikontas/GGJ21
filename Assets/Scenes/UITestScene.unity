@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 20e7fa8e203ec1341a4dad4d9199d9e2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4ae36b65eb5644f84adbbdb2f5508387, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -415,7 +415,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4c1a8bbd858109a4593ad8b9490872f6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f70fea750c23f4bcda26e3851555446c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -613,7 +613,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a763e62465f33bb458cabec620013cb7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0a461ebe1cf60464d8691a786f04c3db, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

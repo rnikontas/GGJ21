@@ -55,8 +55,10 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
             if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
             {
                 roomCanvasUI.indicatorVision.SetActive(true);
+                
                 if (GameManager.Instance.playerId == -1 && PhotonNetwork.CurrentRoom.PlayerCount == 2)
                 {
+                    roomCanvasUI.indicatorVision.GetComponentInChildren<Text>().text = "SEE\n(YOU)";
                     GameManager.Instance.playerId = 1;
                     Debug.LogError(GameManager.Instance.playerId);
                 }
@@ -66,8 +68,10 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
             if (PhotonNetwork.CurrentRoom.PlayerCount == 3)
             {
                 roomCanvasUI.indicatorSound.SetActive(true);
+
                 if (GameManager.Instance.playerId == -1)
                 {
+                    roomCanvasUI.indicatorSound.GetComponentInChildren<Text>().text = "HEAR\n(YOU)";
                     GameManager.Instance.playerId = 2;
                     Debug.LogError(GameManager.Instance.playerId);
                 }
@@ -126,7 +130,7 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
 
             roomCanvasUI.roomCode = roomCode;
             roomCanvasUI.indicatorMovement.SetActive(true);
-            roomCanvasUI.indicatorMovement.GetComponentInChildren<Text>();
+            roomCanvasUI.indicatorMovement.GetComponentInChildren<Text>().text = "MOVE\n(YOU)";
             GameManager.Instance.playerId = 0;
         }
         else

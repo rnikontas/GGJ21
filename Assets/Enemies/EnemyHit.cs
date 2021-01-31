@@ -6,7 +6,7 @@ public class EnemyHit : MonoBehaviour
 {
     public int hitDmg;
     public float bounceForce;
-    float damageTimer = 0.5f;
+    float damageTimer = 2f;
     float timer = 0f;
 
     private void OnTriggerEnter(Collider collider)

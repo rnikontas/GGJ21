@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseController : MonoBehaviour
 {
@@ -38,6 +39,16 @@ public class PauseController : MonoBehaviour
 
     public void Exit()
     {
-        //TODO: Ramojus zadejo visus ismest i main menu sita paspaudus
+        PhotonView photonView = PhotonView.Get(this);
+        photonView.RPC("KickAllPlayers", RpcTarget.All);
+
     }
+
+    [PunRPC]
+    public void KickAllPlayers()
+    {
+        PhotonNetwork.LeaveRoom();
+        Application.Quit();
+    }
+
 }

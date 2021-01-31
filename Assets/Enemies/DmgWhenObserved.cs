@@ -15,7 +15,7 @@ public class DmgWhenObserved : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         audioSource = GetComponent<AudioSource>();
-        cam = player.GetComponent<Camera>();
+        cam = player.GetComponentInChildren<Camera>();
     }
 
     // Update is called once per frame

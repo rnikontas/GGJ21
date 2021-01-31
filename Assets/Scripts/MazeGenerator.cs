@@ -109,7 +109,7 @@ public class MazeGenerator : MonoBehaviour
         CheckAndSetOccupied(cells[endXGridPos, endZGridPos]);
         RemoveExtraWalls();
         SpawnPowerUps();
-        BuildingNavMesh();
+        //BuildingNavMesh();
         DropEnemies();
     }
 

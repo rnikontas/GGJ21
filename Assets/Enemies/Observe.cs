@@ -13,7 +13,7 @@ public class Observe : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindWithTag("Player");
-        cam = player.GetComponent<Camera>();
+        cam = player.GetComponentInChildren<Camera>();
         navMeshAgent = transform.GetComponent<NavMeshAgent>();
     }
 

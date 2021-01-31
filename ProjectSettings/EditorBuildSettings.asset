@@ -12,12 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/boot.unity
     guid: de986fedd07ab8e4d99b499b419ddb92
   - enabled: 1
-    path: Assets/Scenes/testLevel.unity
-    guid: 2d2bf392fa5590341a5138d16020cbef
-  - enabled: 1
-    path: Assets/Scenes/KubolioDevScena.unity
-    guid: b58c20509b2c629479454ed431bfc128
-  - enabled: 1
     path: Assets/Scenes/Level.unity
     guid: b090e4682088d4b4d857924b0b6da371
   - enabled: 1

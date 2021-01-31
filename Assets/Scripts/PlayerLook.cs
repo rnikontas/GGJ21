@@ -23,7 +23,7 @@ public class PlayerLook : MonoBehaviour
 
     void Update()
     {
-        if (!PhotonNetwork.IsMasterClient)
+        if (!PhotonNetwork.IsMasterClient || PauseController.isPaused)
             return;
 
         var lookX = Input.GetAxis("Mouse X") * lookSensitivity * Time.deltaTime;

@@ -22,11 +22,6 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         CheckIfReadyToStart();

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -10,6 +11,9 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
     public Canvas lobbyCanvas;
     public Canvas roomCanvas;
     public RoomCanvasUI roomCanvasUI;
+    public GameObject notFoundObject;
+
+    List<RoomInfo> roomList;
 
     string _inputtedRoomCode;
 
@@ -27,6 +31,10 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.OfflineMode = false;
             PhotonNetwork.GameVersion = "1";
+            var appSettings = new AppSettings();
+            {
+
+            }
             PhotonNetwork.ConnectUsingSettings();
         }
     }
@@ -35,6 +43,7 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.NickName = $"Player#{Random.Range(1, 999)}";
+        PhotonNetwork.JoinLobby(TypedLobby.Default);
     }
 
     public override void OnJoinedRoom()
@@ -53,7 +62,6 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
                 }
 
             }
-
 
             if (PhotonNetwork.CurrentRoom.PlayerCount == 3)
             {
@@ -102,11 +110,12 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
+
         var roomOptions = new RoomOptions()
         {
             IsVisible = false,
             IsOpen = true,
-            MaxPlayers = 3
+            MaxPlayers = 3,
         };
 
         var roomCode = Random.Range(1000, 9999).ToString();
@@ -130,8 +139,33 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
         _inputtedRoomCode = value;
     }
 
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        Debug.LogError($"New rooms! {roomList.Count}");
+        this.roomList = roomList;
+    }
+
+    public void RoomNotFoundMessage()
+    {
+        notFoundObject.GetComponent<RoomNotFoundText>().alpha = 1.0f;
+    }
+
     public void JoinRoom()
     {
+        /*if (roomList == null)
+        {
+            RoomNotFoundMessage();
+            return;
+        }
+            
+
+        var room = roomList.FirstOrDefault(r => r.Name == _inputtedRoomCode);
+        if (room == null)
+        {
+            RoomNotFoundMessage();
+            return;
+        }
+        */
         if (PhotonNetwork.JoinRoom(_inputtedRoomCode))
         {
             lobbyCanvas.gameObject.SetActive(false);

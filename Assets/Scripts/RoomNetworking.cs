@@ -10,6 +10,7 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
     public static RoomNetworking Instance;
     public Canvas lobbyCanvas;
     public Canvas roomCanvas;
+    public Canvas loadingCanvas;
     public RoomCanvasUI roomCanvasUI;
     public GameObject notFoundObject;
 
@@ -23,6 +24,7 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
             Instance = this;
         DontDestroyOnLoad(this);
         roomCanvasUI = roomCanvas.GetComponent<RoomCanvasUI>();
+        lobbyCanvas.enabled = false;
     }
 
     void Start()
@@ -31,10 +33,6 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.OfflineMode = false;
             PhotonNetwork.GameVersion = "1";
-            var appSettings = new AppSettings();
-            {
-
-            }
             PhotonNetwork.ConnectUsingSettings();
         }
     }
@@ -45,6 +43,7 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
         PhotonNetwork.NickName = $"Player#{Random.Range(1, 999)}";
         PhotonNetwork.JoinLobby(TypedLobby.Default);
     }
+
 
     public override void OnJoinedRoom()
     {
@@ -143,6 +142,8 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
     {
         Debug.LogError($"New rooms! {roomList.Count}");
         this.roomList = roomList;
+        lobbyCanvas.enabled = true;
+        loadingCanvas.gameObject.SetActive(false);
     }
 
     public void RoomNotFoundMessage()

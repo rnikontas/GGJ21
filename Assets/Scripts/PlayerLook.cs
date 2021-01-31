@@ -16,6 +16,7 @@ public class PlayerLook : MonoBehaviour
         if (PhotonNetwork.IsMasterClient)
         {
             GetComponent<AudioListener>().enabled = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 

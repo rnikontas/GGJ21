@@ -118,6 +118,9 @@ public class MazeGenerator : MonoBehaviour
 
         var stratusxGridPos = Random.Range(0, xSize);
         var stratuszGridPos = Random.Range(0, zSize);
+
+        var stompusxGridPos = Random.Range(0, xSize);
+        var stompuszGridPos = Random.Range(0, zSize);
         if (PhotonNetwork.IsMasterClient)
         {
             var biblicoPos = new Vector3(cells[biblicoxGridPos, biblicozGridPos].xWorldCoordinate, 2,
@@ -128,12 +131,14 @@ public class MazeGenerator : MonoBehaviour
                                          cells[stratusxGridPos, stratuszGridPos].zWorldCoordinate);
 
             PhotonNetwork.Instantiate(stratus.name, stratusPos, Quaternion.identity);
+
+            var stompusPos = new Vector3(cells[stompusxGridPos, stompuszGridPos].xWorldCoordinate, 2,
+                                         cells[stompusxGridPos, stompuszGridPos].zWorldCoordinate);
+
+            PhotonNetwork.Instantiate(stompus.name, stompusPos, Quaternion.identity);
+
+
         }
-
-        var stompusxGridPos = Random.Range(0, xSize);
-        var stompuszGridPos = Random.Range(0, zSize);
-        Instantiate(stompus, new Vector3(cells[stompusxGridPos, stompuszGridPos].xWorldCoordinate, 2, cells[stompusxGridPos, stompuszGridPos].zWorldCoordinate), Quaternion.identity);
-
 
     }
 

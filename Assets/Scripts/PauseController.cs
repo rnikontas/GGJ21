@@ -48,7 +48,7 @@ public class PauseController : MonoBehaviour
     public void KickAllPlayers()
     {
         PhotonNetwork.LeaveRoom();
-        Application.Quit();
+        
     }
 
 }

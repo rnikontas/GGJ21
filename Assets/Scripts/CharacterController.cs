@@ -15,7 +15,7 @@ public class CharacterController : MonoBehaviour
         pickupState = gameObject.GetComponent<PickupState>();
         if (GameManager.Instance.playerId == 0 || GameManager.Instance.playerId == 2)
         {
-            gameObject.GetComponentInChildren<Camera>().enabled = false;
+            //gameObject.GetComponentInChildren<Camera>().enabled = false;
         }
 
         if (GameManager.Instance.playerId < 2)

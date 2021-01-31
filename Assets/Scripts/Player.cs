@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
     public int health = 100;
     public CharacterController characterController;
+    public GameObject hitEnemyScream;
 
     void Awake()
     {
@@ -80,9 +81,14 @@ public class Player : MonoBehaviour
         }
 
         if (health == 0) {
-            SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
+            PhotonNetwork.LoadLevel("GameOver");
         }
 
         return health;
+    }
+
+    public void PlayHitScream()
+    {
+        hitEnemyScream.GetComponent<AudioSource>().Play();
     }
 }

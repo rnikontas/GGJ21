@@ -55,6 +55,6 @@ public class RoomCanvasUI : MonoBehaviour
     void Blackout()
     {
         Debug.LogError("Got blackout command");
-        //blackout.SetActive(true);
+        blackout.SetActive(true);
     }
 }

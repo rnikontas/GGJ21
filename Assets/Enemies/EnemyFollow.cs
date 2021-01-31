@@ -15,6 +15,9 @@ public class EnemyFollow : MonoBehaviour
         if (!PhotonNetwork.IsMasterClient)
         {
             gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            var rb = GetComponent<Rigidbody>();
+            rb.useGravity = false;
+            rb.isKinematic = true;
         }
     }
     // Start is called before the first frame update

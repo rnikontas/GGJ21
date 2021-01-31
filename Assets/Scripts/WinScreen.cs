@@ -6,6 +6,6 @@ public class WinScreen : MonoBehaviour
 {
     public void DoAWinThing()
     {
-
+        Application.Quit();
     }
 }

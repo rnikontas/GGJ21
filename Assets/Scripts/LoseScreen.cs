@@ -7,6 +7,7 @@ public class LoseScreen : MonoBehaviour
 {
     public void DoALoseThing()
     {
-        SceneManager.LoadScene("Scenes/UITestScene");
+        // SceneManager.LoadScene("Scenes/UITestScene");
+        Application.Quit();
     }
 }

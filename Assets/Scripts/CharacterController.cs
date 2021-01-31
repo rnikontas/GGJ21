@@ -20,7 +20,10 @@ public class CharacterController : MonoBehaviour
 
         if (GameManager.Instance.playerId < 2)
         {
-            gameObject.GetComponentInChildren<AudioListener>().enabled = false;
+            var audioListener = gameObject.GetComponentInChildren<AudioListener>();
+            AudioListener.volume = 0f;
+            audioListener.enabled = false;
+            Debug.LogError("Disabled AudioListener");
         }
     }
 

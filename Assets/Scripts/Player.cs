@@ -31,24 +31,33 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         var triggerObject = other.gameObject;
+        var audioSource = triggerObject.GetComponent<AudioSource>();
+        var clipLength = audioSource.clip.length;
+
         switch (triggerObject.tag) { 
               
         case "Cheese": 
             characterController.pickupState.addTimedPowerUpEffect(PowerUpName.Speed, new TimedPowerupEffect(3 , 1));
-
-            triggerObject.SetActive(false);
+            other.enabled = false;
+            triggerObject.GetComponent<MeshRenderer>().enabled = false;
+            audioSource.Play();
+            Destroy(triggerObject, clipLength);
             break; 
   
         case "Carrot": 
             characterController.pickupState.addTimedPowerUpEffect(PowerUpName.Vision, new TimedPowerupEffect());
-
-            triggerObject.SetActive(false);
+            other.enabled = false;
+            triggerObject.GetComponent<MeshRenderer>().enabled = false;
+            audioSource.Play();
+            Destroy(triggerObject, clipLength);
             break; 
 
         case "Health": 
             increaseHealth(10);
-
-            triggerObject.SetActive(false);
+            other.enabled = false;
+            triggerObject.GetComponent<MeshRenderer>().enabled = false;
+            audioSource.Play();
+            Destroy(triggerObject, clipLength);
             break; 
   
         default:

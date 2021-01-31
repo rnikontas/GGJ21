@@ -76,6 +76,7 @@ public class Player : MonoBehaviour
     }
 
     public int reduceHealth(int amount) {
+        Debug.LogError($"HP: {health}");
         health -= amount;
         var audioSource = hitEnemy.GetComponent<AudioSource>();
         if (!audioSource.isPlaying)

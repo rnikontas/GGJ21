@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -166,9 +166,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 1
-  testSeed: 1
-  xSize: 5
-  zSize: 5
+  testSeed: 265
+  xSize: 15
+  zSize: 15
   wallGO:
   - {fileID: 2335240092310910224, guid: 371d97e7b556a2e4ca89d3076712eac9, type: 3}
   floorGO: {fileID: 7715843565390198559, guid: d31bf6215709c7d49a0798f06602f1ea, type: 3}
@@ -176,6 +176,7 @@ MonoBehaviour:
   finishGO: {fileID: 3041581221715071151, guid: 71d23de82afaa2d43b51b03de76ee2b3,
     type: 3}
   torch: {fileID: 4071567886056677533, guid: 90270749069e6b844a855c8eddd9648c, type: 3}
+  blackOut: {fileID: 0}
   torchGap: 1
   powerUpsToSpawn: 7
   powerUps:
@@ -185,7 +186,7 @@ MonoBehaviour:
   player: {fileID: 4167716675838891645, guid: 7be9c84489f4245429d6a727a18ca112, type: 3}
   networkedPlayer: {fileID: 2099356263524047263, guid: 7743a9e18870fb84c872d26250ccced7,
     type: 3}
-  extraWallsToRemove: 0
+  extraWallsToRemove: 10
   biblico: {fileID: 2545979800504372219, guid: b0abf2a46b5104b3481b9756d300a86c, type: 3}
   stompus: {fileID: 7885017077903644834, guid: 24944cfd61d744cd3855c1091fb981bb, type: 3}
   stratus: {fileID: 2470151999710223245, guid: 94a176ae0cdeb4d6988a3fcd98fa0f53, type: 3}

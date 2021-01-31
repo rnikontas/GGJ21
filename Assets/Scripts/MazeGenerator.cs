@@ -20,9 +20,9 @@ public class MazeGenerator : MonoBehaviour
 
     [SerializeField] private GameObject[] wallGO;
     [SerializeField] private GameObject floorGO;
-    [SerializeField] private GameObject startGO;
     [SerializeField] private GameObject finishGO;
     [SerializeField] private GameObject torch;
+    public GameObject blackOut;
     
     [SerializeField] private int torchGap;
                      private int currentTorchGap = 0;
@@ -42,12 +42,12 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] GameObject networkedPlayer;
 
     [SerializeField] private int extraWallsToRemove;
-        
-    private List<GameObject> floorList = new List<GameObject>();
 
     [SerializeField] private GameObject biblico;
     [SerializeField] private GameObject stompus;
     [SerializeField] private GameObject stratus;
+
+    [SerializeField] private GameObject navMeshSurface;
 
     void Awake()
     {
@@ -94,8 +94,6 @@ public class MazeGenerator : MonoBehaviour
         var xGridPos = Random.Range(0, xSize);
         var zGridPos = Random.Range(0, zSize);
         GenerateGap(xGridPos, zGridPos);
-        Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
-        CheckAndSetOccupied(cells[xGridPos, zGridPos]);
         var playerPosition = new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate);
         if (PhotonNetwork.IsMasterClient)
         {
@@ -105,7 +103,7 @@ public class MazeGenerator : MonoBehaviour
         {
             Instantiate(player, playerPosition, Quaternion.identity);
         }
-        Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 2, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
+        Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 1.2f, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.Euler(90,0,0));
         CheckAndSetOccupied(cells[endXGridPos, endZGridPos]);
         RemoveExtraWalls();
         SpawnPowerUps();
@@ -117,22 +115,33 @@ public class MazeGenerator : MonoBehaviour
     {
         var biblicoxGridPos = Random.Range(0, xSize);
         var biblicozGridPos = Random.Range(0, zSize);
-        Instantiate(biblico, new Vector3(cells[biblicoxGridPos, biblicozGridPos].xWorldCoordinate, 2, cells[biblicoxGridPos, biblicozGridPos].zWorldCoordinate), Quaternion.identity);
+
+        var stratusxGridPos = Random.Range(0, xSize);
+        var stratuszGridPos = Random.Range(0, zSize);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            var biblicoPos = new Vector3(cells[biblicoxGridPos, biblicozGridPos].xWorldCoordinate, 2,
+                                  cells[biblicoxGridPos, biblicozGridPos].zWorldCoordinate);
+            PhotonNetwork.Instantiate(biblico.name, biblicoPos, Quaternion.identity);
+
+            var stratusPos = new Vector3(cells[stratusxGridPos, stratuszGridPos].xWorldCoordinate, 2,
+                                         cells[stratusxGridPos, stratuszGridPos].zWorldCoordinate);
+
+            PhotonNetwork.Instantiate(stratus.name, stratusPos, Quaternion.identity);
+        }
 
         var stompusxGridPos = Random.Range(0, xSize);
         var stompuszGridPos = Random.Range(0, zSize);
         Instantiate(stompus, new Vector3(cells[stompusxGridPos, stompuszGridPos].xWorldCoordinate, 2, cells[stompusxGridPos, stompuszGridPos].zWorldCoordinate), Quaternion.identity);
 
-        var stratusxGridPos = Random.Range(0, xSize);
-        var stratuszGridPos = Random.Range(0, zSize);
-        Instantiate(stratus, new Vector3(cells[stratusxGridPos, stratuszGridPos].xWorldCoordinate, 2, cells[stratusxGridPos, stratuszGridPos].zWorldCoordinate), Quaternion.identity);
+
     }
 
     private void BuildingNavMesh()
     {
-        foreach (var floor in floorList)
+        foreach (var navMeshSurface in NavMeshSurface.activeSurfaces)
         {
-            floor.GetComponent<NavMeshSurface>().BuildNavMesh();
+            navMeshSurface.BuildNavMesh();
         }
     }
 
@@ -155,16 +164,15 @@ public class MazeGenerator : MonoBehaviour
                 cell.xGridCoordinate = j;
                 cell.zGridCoordinate = i;
 
-                var tempFloor = Instantiate(floorGO, new Vector3(xPos, 0.2f, zPos), Quaternion.identity);
-                floorList.Add(tempFloor);
+                Instantiate(floorGO, new Vector3(xPos, 0.2f, zPos), Quaternion.identity, navMeshSurface.transform);
                 cell.rightWall = Instantiate(wallToGenerate, new Vector3(xPos + distFromCellCenter, 0, zPos),
-                    Quaternion.identity * Quaternion.Euler(0, 90, 0));
+                    Quaternion.identity * Quaternion.Euler(0, 90, 0), navMeshSurface.transform);
                 cell.bottomWall = Instantiate(wallToGenerate, new Vector3(xPos, 0, zPos - distFromCellCenter),
-                    Quaternion.identity);
+                    Quaternion.identity, navMeshSurface.transform);
                 if (j == 0)
                 {
                     cell.leftWall = Instantiate(wallToGenerate, new Vector3(xPos - distFromCellCenter, 0, zPos),
-                        Quaternion.identity * Quaternion.Euler(0, 90, 0));
+                        Quaternion.identity * Quaternion.Euler(0, 90, 0), navMeshSurface.transform);
                 }
                 else
                 {
@@ -174,7 +182,7 @@ public class MazeGenerator : MonoBehaviour
                 if (i == 0)
                 {
                     cell.topWall = Instantiate(wallToGenerate, new Vector3(xPos, 0, zPos + distFromCellCenter),
-                        Quaternion.identity);
+                        Quaternion.identity, navMeshSurface.transform);
                 }
                 else
                 {
@@ -268,7 +276,6 @@ public class MazeGenerator : MonoBehaviour
         {
             var x = Random.Range(0, xSize);
             var z = Random.Range(0, zSize);
-
             var neighbours = GetNeighboursWithWalls(x, z);
             
             if (neighbours.Count != 0)
@@ -292,28 +299,33 @@ public class MazeGenerator : MonoBehaviour
                 GameObject.Destroy(cells[x, z].leftWall);
                 cells[x, z].leftWall = null;
                 cells[x - 1, z].rightWall = null;
+                RemoveTorch(x, z);
+                RemoveTorch(x-1, z);
                 break;
             case "right":
                 GameObject.Destroy(cells[x, z].rightWall);
                 cells[x, z].rightWall = null;
                 cells[x + 1, z].leftWall = null;
+                RemoveTorch(x, z);
+                RemoveTorch(x+1, z);
                 break;
             case "top":
                 GameObject.Destroy(cells[x, z].topWall);
                 cells[x, z].topWall = null;
                 cells[x, z-1].bottomWall = null;
+                RemoveTorch(x, z);
+                RemoveTorch(x, z-1);
                 break;
             case "bottom":
                 GameObject.Destroy(cells[x, z].bottomWall);
                 cells[x, z].bottomWall = null;
                 cells[x, z+1].topWall = null;
+                RemoveTorch(x, z);
+                RemoveTorch(x, z+1);
                 break;
         }
-        if (cells[x, z].torch != null)
-        {
-            Destroy(cells[x, z].torch);
-            cells[x, z].torch = null;
-        }
+        
+
     }
 
     private Dictionary<String, Cell> GetUnvisitedNeighbours(int x, int z)
@@ -394,6 +406,15 @@ public class MazeGenerator : MonoBehaviour
         {
             cell.isOccupied = true;
             return false;
+        }
+    }
+
+    private void RemoveTorch(int x, int z)
+    {
+        if (cells[x, z].torch != null)
+        {
+            Destroy(cells[x, z].torch);
+            cells[x, z].torch = null;
         }
     }
 }

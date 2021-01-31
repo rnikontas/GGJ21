@@ -22,11 +22,6 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         CheckIfReadyToStart();
@@ -54,7 +49,11 @@ public class GameManager : MonoBehaviour
         seed = Random.Range(0, 1000);
         Debug.Log($"Seed: {seed}");
 
-        if (PhotonNetwork.IsMasterClient) 
+        if (PhotonNetwork.IsMasterClient)
+        {
+            RoomNetworking.Instance.roomCanvasUI.BlackoutOtherPlayers();
             PhotonNetwork.LoadLevel("Level");
+        }
+            
     }
 }

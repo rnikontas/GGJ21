@@ -9,8 +9,10 @@ using static TimedPowerupEffect;
 public class Player : MonoBehaviour
 {
 
-    private int health = 100;
+    public int health = 100;
     public CharacterController characterController;
+    public GameObject hitEnemyScream;
+    public GameObject hitEnemy;
 
     void Awake()
     {
@@ -31,21 +33,33 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         var triggerObject = other.gameObject;
+        var audioSource = triggerObject.GetComponent<AudioSource>();
+        var clipLength = audioSource.clip.length;
+
         switch (triggerObject.tag) { 
               
         case "Cheese": 
             characterController.pickupState.addTimedPowerUpEffect(PowerUpName.Speed, new TimedPowerupEffect(3 , 1));
-            triggerObject.SetActive(false);
+            other.enabled = false;
+            triggerObject.GetComponent<MeshRenderer>().enabled = false;
+            audioSource.Play();
+            Destroy(triggerObject, clipLength);
             break; 
   
         case "Carrot": 
             characterController.pickupState.addTimedPowerUpEffect(PowerUpName.Vision, new TimedPowerupEffect());
-            triggerObject.SetActive(false);
+            other.enabled = false;
+            triggerObject.GetComponent<MeshRenderer>().enabled = false;
+            audioSource.Play();
+            Destroy(triggerObject, clipLength);
             break; 
 
         case "Health": 
             increaseHealth(10);
-            triggerObject.SetActive(false);
+            other.enabled = false;
+            triggerObject.GetComponent<MeshRenderer>().enabled = false;
+            audioSource.Play();
+            Destroy(triggerObject, clipLength);
             break; 
   
         default:
@@ -63,14 +77,25 @@ public class Player : MonoBehaviour
 
     public int reduceHealth(int amount) {
         health -= amount;
+        var audioSource = hitEnemy.GetComponent<AudioSource>();
+        if (!audioSource.isPlaying)
+        {
+            audioSource.pitch = Random.Range(0.90f, 1.1f);
+            audioSource.Play();
+        }
         if (health < 0){
             health = 0;
         }
 
         if (health == 0) {
-            SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
+            PhotonNetwork.LoadLevel("GameOver");
         }
 
         return health;
+    }
+
+    public void PlayHitScream()
+    {
+        hitEnemyScream.GetComponent<AudioSource>().Play();
     }
 }

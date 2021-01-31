@@ -15,7 +15,7 @@ public class DmgWhenObserved : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         audioSource = GetComponent<AudioSource>();
-        cam = player.GetComponent<Camera>();
+        cam = player.GetComponentInChildren<Camera>();
     }
 
     // Update is called once per frame
@@ -23,12 +23,14 @@ public class DmgWhenObserved : MonoBehaviour
     {
         if (IsInView(player, this.gameObject))
         {
-            audioSource.Play(0);
+            Debug.LogError("Is in view");
             currentViewingTime += Time.deltaTime;
             if (currentViewingTime >= timeBeforeDmgSeconds)
             {
                 currentViewingTime = 0;
-                //player.DoAHurt(hitDmg);
+                var playerScript = player.GetComponent<Player>();
+                playerScript.reduceHealth(hitDmg);
+                playerScript.PlayHitScream();
             }
         }
         else

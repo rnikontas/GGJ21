@@ -115,15 +115,26 @@ public class MazeGenerator : MonoBehaviour
     {
         var biblicoxGridPos = Random.Range(0, xSize);
         var biblicozGridPos = Random.Range(0, zSize);
-        Instantiate(biblico, new Vector3(cells[biblicoxGridPos, biblicozGridPos].xWorldCoordinate, 2, cells[biblicoxGridPos, biblicozGridPos].zWorldCoordinate), Quaternion.identity);
+
+        var stratusxGridPos = Random.Range(0, xSize);
+        var stratuszGridPos = Random.Range(0, zSize);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            var biblicoPos = new Vector3(cells[biblicoxGridPos, biblicozGridPos].xWorldCoordinate, 2,
+                                  cells[biblicoxGridPos, biblicozGridPos].zWorldCoordinate);
+            PhotonNetwork.Instantiate(biblico.name, biblicoPos, Quaternion.identity);
+
+            var stratusPos = new Vector3(cells[stratusxGridPos, stratuszGridPos].xWorldCoordinate, 2,
+                                         cells[stratusxGridPos, stratuszGridPos].zWorldCoordinate);
+
+            PhotonNetwork.Instantiate(stratus.name, stratusPos, Quaternion.identity);
+        }
 
         var stompusxGridPos = Random.Range(0, xSize);
         var stompuszGridPos = Random.Range(0, zSize);
         Instantiate(stompus, new Vector3(cells[stompusxGridPos, stompuszGridPos].xWorldCoordinate, 2, cells[stompusxGridPos, stompuszGridPos].zWorldCoordinate), Quaternion.identity);
 
-        var stratusxGridPos = Random.Range(0, xSize);
-        var stratuszGridPos = Random.Range(0, zSize);
-        Instantiate(stratus, new Vector3(cells[stratusxGridPos, stratuszGridPos].xWorldCoordinate, 2, cells[stratusxGridPos, stratuszGridPos].zWorldCoordinate), Quaternion.identity);
+
     }
 
     private void BuildingNavMesh()

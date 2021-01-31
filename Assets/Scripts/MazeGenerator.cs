@@ -269,7 +269,6 @@ public class MazeGenerator : MonoBehaviour
         {
             var x = Random.Range(0, xSize);
             var z = Random.Range(0, zSize);
-
             var neighbours = GetNeighboursWithWalls(x, z);
             
             if (neighbours.Count != 0)
@@ -293,28 +292,33 @@ public class MazeGenerator : MonoBehaviour
                 GameObject.Destroy(cells[x, z].leftWall);
                 cells[x, z].leftWall = null;
                 cells[x - 1, z].rightWall = null;
+                RemoveTorch(x, z);
+                RemoveTorch(x-1, z);
                 break;
             case "right":
                 GameObject.Destroy(cells[x, z].rightWall);
                 cells[x, z].rightWall = null;
                 cells[x + 1, z].leftWall = null;
+                RemoveTorch(x, z);
+                RemoveTorch(x+1, z);
                 break;
             case "top":
                 GameObject.Destroy(cells[x, z].topWall);
                 cells[x, z].topWall = null;
                 cells[x, z-1].bottomWall = null;
+                RemoveTorch(x, z);
+                RemoveTorch(x, z-1);
                 break;
             case "bottom":
                 GameObject.Destroy(cells[x, z].bottomWall);
                 cells[x, z].bottomWall = null;
                 cells[x, z+1].topWall = null;
+                RemoveTorch(x, z);
+                RemoveTorch(x, z+1);
                 break;
         }
-        if (cells[x, z].torch != null)
-        {
-            Destroy(cells[x, z].torch);
-            cells[x, z].torch = null;
-        }
+        
+
     }
 
     private Dictionary<String, Cell> GetUnvisitedNeighbours(int x, int z)
@@ -395,6 +399,15 @@ public class MazeGenerator : MonoBehaviour
         {
             cell.isOccupied = true;
             return false;
+        }
+    }
+
+    private void RemoveTorch(int x, int z)
+    {
+        if (cells[x, z].torch != null)
+        {
+            Destroy(cells[x, z].torch);
+            cells[x, z].torch = null;
         }
     }
 }

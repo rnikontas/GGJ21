@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 4071567886809663830}
   - component: {fileID: 4071567886809663825}
   - component: {fileID: 4071567886809663831}
-  - component: {fileID: 5359769107034786369}
+  - component: {fileID: 5308880443007050337}
   m_Layer: 0
   m_Name: Quad
   m_TagString: Untagged
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02cff668deac4cccb2be78d08606fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!108 &5359769107034786369
+--- !u!108 &5308880443007050337
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,10 +185,10 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.7052167, b: 0, a: 1}
-  m_Intensity: 1
-  m_Range: 10
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
+  m_Intensity: 0.6
+  m_Range: 50
+  m_SpotAngle: 179
+  m_InnerSpotAngle: 170.80206
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -197,7 +197,7 @@ Light:
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 0.1
     m_CullingMatrixOverride:
       e00: 1
       e01: 0

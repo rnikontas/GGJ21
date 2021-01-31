@@ -35,16 +35,19 @@ public class Player : MonoBehaviour
               
         case "Cheese": 
             characterController.pickupState.addTimedPowerUpEffect(PowerUpName.Speed, new TimedPowerupEffect(3 , 1));
+
             triggerObject.SetActive(false);
             break; 
   
         case "Carrot": 
             characterController.pickupState.addTimedPowerUpEffect(PowerUpName.Vision, new TimedPowerupEffect());
+
             triggerObject.SetActive(false);
             break; 
 
         case "Health": 
             increaseHealth(10);
+
             triggerObject.SetActive(false);
             break; 
   

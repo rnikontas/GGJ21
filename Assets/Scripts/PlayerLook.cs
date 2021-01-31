@@ -17,6 +17,7 @@ public class PlayerLook : MonoBehaviour
         {
             GetComponent<AudioListener>().enabled = false;
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 

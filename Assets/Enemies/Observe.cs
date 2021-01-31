@@ -9,12 +9,14 @@ public class Observe : MonoBehaviour
     GameObject player;
     Camera cam;
     NavMeshAgent navMeshAgent;
+    AudioSource audioSource;
 
     private void Start()
     {
         player = GameObject.FindWithTag("Player");
         cam = player.GetComponentInChildren<Camera>();
         navMeshAgent = transform.GetComponent<NavMeshAgent>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -22,10 +24,14 @@ public class Observe : MonoBehaviour
         if (IsInView(player, this.gameObject))
         {
             navMeshAgent.speed = 0;
+            if (audioSource.isPlaying)
+                audioSource.Stop();
         }
         else
         {
             navMeshAgent.speed = enemySpeed;
+            if (!audioSource.isPlaying)
+                audioSource.Play();
         }
     }
 

@@ -232,8 +232,7 @@ MonoBehaviour:
   wallGO:
   - {fileID: 2335240092310910224, guid: 371d97e7b556a2e4ca89d3076712eac9, type: 3}
   floorGO: {fileID: 7715843565390198559, guid: d31bf6215709c7d49a0798f06602f1ea, type: 3}
-  startGO: {fileID: 236382066239066091, guid: a7d2ec0bfa226874fa9433555ef49cd0, type: 3}
-  finishGO: {fileID: 3041581221715071151, guid: 71d23de82afaa2d43b51b03de76ee2b3,
+  finishGO: {fileID: 5495942866635640564, guid: 11a8e65faa448fc48a1f5f1e8b455bef,
     type: 3}
   torch: {fileID: 4071567886056677533, guid: 90270749069e6b844a855c8eddd9648c, type: 3}
   blackOut: {fileID: 0}

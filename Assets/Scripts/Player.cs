@@ -9,7 +9,7 @@ using static TimedPowerupEffect;
 public class Player : MonoBehaviour
 {
 
-    private int health = 100;
+    public int health = 100;
     public CharacterController characterController;
 
     void Awake()

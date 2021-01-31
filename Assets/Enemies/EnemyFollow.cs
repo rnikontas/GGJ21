@@ -13,6 +13,7 @@ public class EnemyFollow : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         destination = GameObject.FindWithTag("Player");
+
     }
 
     // Update is called once per frame

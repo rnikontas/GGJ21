@@ -55,7 +55,7 @@ public class Player : MonoBehaviour
             break; 
 
         case "Health": 
-            increaseHealth(10);
+            increaseHealth(100);
             other.enabled = false;
             triggerObject.GetComponent<MeshRenderer>().enabled = false;
             audioSource.Play();

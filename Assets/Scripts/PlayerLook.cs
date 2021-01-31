@@ -27,13 +27,13 @@ public class PlayerLook : MonoBehaviour
         if (!PhotonNetwork.IsMasterClient || PauseController.isPaused)
             return;
 
-        var lookX = Input.GetAxis("Mouse X") * lookSensitivity * Time.deltaTime;
-        var lookY = Input.GetAxis("Mouse Y") * lookSensitivity * Time.deltaTime;
+        var lookX = Input.GetAxis("Horizontal") * lookSensitivity * Time.deltaTime;
+        //var lookY = Input.GetAxis("Mouse Y") * lookSensitivity * Time.deltaTime;
 
-        _xRotation -= lookY;
-        _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
+        //_xRotation -= lookY;
+        //_xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
 
-        transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
+        transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
         playerBody.Rotate(Vector3.up * lookX);
 
     }

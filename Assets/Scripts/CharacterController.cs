@@ -55,10 +55,10 @@ public class CharacterController : MonoBehaviour
             return;
 
         var speed = GetMoveSpeed();
-        var moveX = Input.GetAxis("Horizontal");
+        //var moveX = Input.GetAxis("Horizontal");
         var moveZ = Input.GetAxis("Vertical");
 
-        var movementDirection = transform.right * moveX + transform.forward * moveZ;
+        var movementDirection = transform.forward * moveZ;
         controller.Move(movementDirection * speed * Time.deltaTime);
     }
 

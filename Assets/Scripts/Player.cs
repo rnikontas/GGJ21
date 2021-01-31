@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static TimedPowerupEffect;
 
 public class Player : MonoBehaviour
@@ -65,6 +66,11 @@ public class Player : MonoBehaviour
         if (health < 0){
             health = 0;
         }
+
+        if (health == 0) {
+            SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
+        }
+
         return health;
     }
 }

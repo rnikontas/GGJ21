@@ -20,7 +20,6 @@ public class MazeGenerator : MonoBehaviour
 
     [SerializeField] private GameObject[] wallGO;
     [SerializeField] private GameObject floorGO;
-    [SerializeField] private GameObject startGO;
     [SerializeField] private GameObject finishGO;
     [SerializeField] private GameObject torch;
     public GameObject blackOut;
@@ -95,8 +94,6 @@ public class MazeGenerator : MonoBehaviour
         var xGridPos = Random.Range(0, xSize);
         var zGridPos = Random.Range(0, zSize);
         GenerateGap(xGridPos, zGridPos);
-        Instantiate(startGO, new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate), Quaternion.identity);
-        CheckAndSetOccupied(cells[xGridPos, zGridPos]);
         var playerPosition = new Vector3(cells[xGridPos, zGridPos].xWorldCoordinate, 2, cells[xGridPos, zGridPos].zWorldCoordinate);
         if (PhotonNetwork.IsMasterClient)
         {
@@ -106,7 +103,7 @@ public class MazeGenerator : MonoBehaviour
         {
             Instantiate(player, playerPosition, Quaternion.identity);
         }
-        Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 2, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.identity);
+        Instantiate(finishGO, new Vector3(cells[endXGridPos, endZGridPos].xWorldCoordinate, 1.2f, cells[endXGridPos, endZGridPos].zWorldCoordinate), Quaternion.Euler(90,0,0));
         CheckAndSetOccupied(cells[endXGridPos, endZGridPos]);
         RemoveExtraWalls();
         SpawnPowerUps();

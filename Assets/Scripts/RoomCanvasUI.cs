@@ -18,6 +18,7 @@ public class RoomCanvasUI : MonoBehaviour
     public GameObject indicatorSound;
 
     public GameObject waitingGameObject;
+    public GameObject blackout;
 
     void Start()
     {
@@ -39,5 +40,21 @@ public class RoomCanvasUI : MonoBehaviour
             startGameButton.gameObject.SetActive(true);
         }
             
+    }
+
+    public void BlackoutOtherPlayers()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("Blackout", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    void Blackout()
+    {
+        Debug.LogError("Got blackout command");
+        blackout.SetActive(true);
     }
 }

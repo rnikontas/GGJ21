@@ -23,6 +23,7 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] private GameObject startGO;
     [SerializeField] private GameObject finishGO;
     [SerializeField] private GameObject torch;
+    public GameObject blackOut;
     
     [SerializeField] private int torchGap;
                      private int currentTorchGap = 0;
@@ -110,7 +111,7 @@ public class MazeGenerator : MonoBehaviour
         RemoveExtraWalls();
         SpawnPowerUps();
         //BuildingNavMesh();
-        DropEnemies();
+        //DropEnemies();
     }
 
     private void DropEnemies()

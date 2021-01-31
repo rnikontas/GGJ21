@@ -13,7 +13,7 @@ public class CharacterController : MonoBehaviour
     {
         Debug.LogError(GameManager.Instance.playerId);
         pickupState = gameObject.GetComponent<PickupState>();
-        if (GameManager.Instance.playerId == 0)
+        if (GameManager.Instance.playerId == 0 || GameManager.Instance.playerId == 2)
         {
             gameObject.GetComponentInChildren<Camera>().enabled = false;
         }

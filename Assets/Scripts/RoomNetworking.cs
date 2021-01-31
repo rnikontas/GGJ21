@@ -9,7 +9,7 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
     public static RoomNetworking Instance;
     public Canvas lobbyCanvas;
     public Canvas roomCanvas;
-    RoomCanvasUI roomCanvasUI;
+    public RoomCanvasUI roomCanvasUI;
 
     string _inputtedRoomCode;
 
@@ -46,10 +46,10 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
             if (PhotonNetwork.CurrentRoom.PlayerCount >= 2)
             {
                 roomCanvasUI.indicatorVision.SetActive(true);
-                if (GameManager.Instance.playerId == -1)
+                if (GameManager.Instance.playerId == -1 && PhotonNetwork.CurrentRoom.PlayerCount == 2)
                 {
-                    Debug.LogError(GameManager.Instance.playerId);
                     GameManager.Instance.playerId = 1;
+                    Debug.LogError(GameManager.Instance.playerId);
                 }
 
             }
@@ -60,8 +60,8 @@ public class RoomNetworking : MonoBehaviourPunCallbacks
                 roomCanvasUI.indicatorSound.SetActive(true);
                 if (GameManager.Instance.playerId == -1)
                 {
-                    Debug.LogError(GameManager.Instance.playerId);
                     GameManager.Instance.playerId = 2;
+                    Debug.LogError(GameManager.Instance.playerId);
                 }
                     
             }

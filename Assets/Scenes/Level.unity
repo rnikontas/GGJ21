@@ -176,6 +176,7 @@ MonoBehaviour:
   finishGO: {fileID: 3041581221715071151, guid: 71d23de82afaa2d43b51b03de76ee2b3,
     type: 3}
   torch: {fileID: 4071567886056677533, guid: 90270749069e6b844a855c8eddd9648c, type: 3}
+  blackOut: {fileID: 0}
   torchGap: 1
   powerUpsToSpawn: 7
   powerUps:
